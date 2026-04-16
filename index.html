@@ -963,7 +963,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         <label class="rf-label">Your Review *</label>
         <textarea class="rf-input rf-textarea" id="rv-text" placeholder="Share your experience at National Academy..."></textarea>
       </div>
-      <button class="rf-submit" onclick="submitReview()" id="rvSubmitBtn">
+      <button class="rf-submit" onclick="submitReview()" id="rvSubmitBtn" type="button">
         <span>✨</span><span id="rvSubmitTxt">Submit Review</span>
       </button>
       <p class="rf-note">✅ Reviews appear after admin approval. JazakAllah for your feedback!</p>
@@ -1500,21 +1500,27 @@ function setRating(val){
   });
 }
 
+let _reviewSubmitting = false; // ← ADD THIS LINE before the function
+
 async function submitReview(){
+  // ── GUARD: prevent double-submission ──
+  if(_reviewSubmitting) return;
+  
   const name = document.getElementById('rv-name').value.trim();
   const role = document.getElementById('rv-role').value.trim();
   const review = document.getElementById('rv-text').value.trim();
   if(!name || !review){ alert('Please enter your name and review.'); return; }
 
+  // ── LOCK immediately ──
+  _reviewSubmitting = true;
   const btn = document.getElementById('rvSubmitBtn');
   const txt = document.getElementById('rvSubmitTxt');
   btn.disabled = true;
+  btn.style.opacity = '0.6';
+  btn.style.cursor = 'not-allowed';
   txt.textContent = 'Submitting...';
 
   try {
-    // ── STEP 1: Send directly to n8n ──
-    // n8n will insert into Supabase using the service_role key (no RLS issues)
-    // and send approval emails — all in one webhook call
     const payload = {
       type: 'new_review',
       sessionId: 'review_' + Date.now(),
@@ -1527,9 +1533,7 @@ async function submitReview(){
       body: JSON.stringify(payload)
     });
 
-    // n8n returns 200 on success (even if it returns nothing, treat as ok)
     if(res.ok || res.status === 200 || res.status === 201){
-      // ── STEP 2: Show success immediately ──
       document.getElementById('rv-name').value = '';
       document.getElementById('rv-role').value = '';
       document.getElementById('rv-text').value = '';
@@ -1537,14 +1541,20 @@ async function submitReview(){
       document.getElementById('rvSuccess').style.display = 'block';
       setTimeout(() => document.getElementById('rvSuccess').style.display = 'none', 6000);
       txt.textContent = '✅ Submitted!';
-      setTimeout(() => { txt.textContent = 'Submit Review'; btn.disabled = false; }, 3000);
+      // ── Keep button disabled for 8 seconds to prevent re-submit ──
+      setTimeout(() => {
+        txt.textContent = 'Submit Review';
+        btn.disabled = false;
+        btn.style.opacity = '';
+        btn.style.cursor = '';
+        _reviewSubmitting = false;
+      }, 8000);
     } else {
-      throw new Error('n8n webhook returned: ' + res.status);
+      throw new Error('n8n returned: ' + res.status);
     }
 
   } catch(e){
     console.error('Review submit error:', e);
-    // ── FALLBACK: If n8n fails, insert directly into Supabase ──
     try {
       const fallback = await supaFetch('/rest/v1/reviews', {
         method: 'POST',
@@ -1559,14 +1569,22 @@ async function submitReview(){
         document.getElementById('rvSuccess').style.display = 'block';
         setTimeout(() => document.getElementById('rvSuccess').style.display = 'none', 6000);
         txt.textContent = '✅ Submitted!';
-        setTimeout(() => { txt.textContent = 'Submit Review'; btn.disabled = false; }, 3000);
+        setTimeout(() => {
+          txt.textContent = 'Submit Review';
+          btn.disabled = false;
+          btn.style.opacity = '';
+          btn.style.cursor = '';
+          _reviewSubmitting = false;
+        }, 8000);
         return;
       }
-    } catch(e2){ console.error('Fallback also failed:', e2); }
+    } catch(e2){ console.error('Fallback failed:', e2); }
 
     txt.textContent = 'Failed — Try Again';
     btn.disabled = false;
-    setTimeout(() => txt.textContent = 'Submit Review', 3000);
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    _reviewSubmitting = false;
   }
 }
 
