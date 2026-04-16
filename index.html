@@ -211,7 +211,6 @@ h1.hero-title{
 }
 .hstat-label{font-size:11px;color:var(--text-3);letter-spacing:1.5px;text-transform:uppercase;}
 
-/* ── VIEWS BADGE in hero stats ── */
 .views-badge{
   display:inline-flex;align-items:center;gap:7px;
   background:rgba(13,148,136,0.1);border:1px solid var(--border-bright);
@@ -365,17 +364,19 @@ section{position:relative;z-index:1;}
 .tspeciality{font-size:13px;color:var(--text-2);line-height:1.6;}
 
 /* ══════════════════════════════════════
-   REVIEWS SECTION — Horizontal Carousel
+   REVIEWS — RESPONSIVE GRID (FIXED)
+   Mobile: 1 card | Tablet: 2 | Desktop: 3
 ══════════════════════════════════════ */
 #reviews{background:var(--bg-1);}
 
+/* ── Outer wrapper clips overflow ── */
 .reviews-carousel-wrap{
   position:relative;
   margin-top:40px;
   overflow:hidden;
 }
 
-/* Track: wide enough to hold all cards side by side */
+/* ── The scrolling track ── */
 .reviews-track{
   display:flex;
   gap:20px;
@@ -386,10 +387,10 @@ section{position:relative;z-index:1;}
 }
 .reviews-track:active{cursor:grabbing;}
 
-/* Each review card — fixed width */
+/* ── Each card: width set by CSS variable updated in JS ── */
 .rv-card{
-  flex:0 0 320px;
-  width:320px;
+  flex:0 0 var(--card-w, calc(33.333% - 14px));
+  width:var(--card-w, calc(33.333% - 14px));
   background:var(--bg-card);
   border:1px solid var(--border);
   border-radius:var(--radius);
@@ -398,6 +399,7 @@ section{position:relative;z-index:1;}
   overflow:hidden;
   transition:border-color .3s, transform .3s;
   -webkit-tap-highlight-color:transparent;
+  box-sizing:border-box;
 }
 .rv-card:hover{border-color:var(--border-bright);transform:translateY(-3px);}
 .rv-card::before{
@@ -416,13 +418,8 @@ section{position:relative;z-index:1;}
 }
 .rv-name{font-weight:700;font-size:14px;display:block;}
 .rv-role{font-size:11px;color:var(--text-3);}
-.rv-tag{
-  margin-top:6px;display:inline-block;
-  border-radius:50px;padding:2px 10px;
-  font-size:10px;letter-spacing:.5px;font-weight:600;
-}
 
-/* Carousel nav arrows */
+/* Carousel nav */
 .carousel-nav{
   display:flex;align-items:center;justify-content:center;
   gap:12px;margin-top:24px;
@@ -496,7 +493,7 @@ section{position:relative;z-index:1;}
   color:#4ade80;font-size:14px;font-weight:600;
 }
 
-/* ── RATING BADGE (used near enrollment form) ── */
+/* ── RATING BADGE ── */
 .rating-badge-inline{
   display:inline-flex;align-items:center;gap:10px;
   background:rgba(245,158,11,0.08);
@@ -508,7 +505,7 @@ section{position:relative;z-index:1;}
 .rbi-text{font-size:13px;color:var(--amber-light);font-weight:700;}
 .rbi-sub{font-size:11px;color:var(--text-3);}
 
-/* ── GALLERY ── */
+/* ── WHO JOIN ── */
 .who-join-peek{position:relative;margin-top:56px;padding-top:48px;}
 .who-join-peek::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);}
 .who-join-title{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal-light);margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:12px;}
@@ -665,13 +662,13 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
 .reveal{opacity:0;transform:translateY(28px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
 .reveal.visible{opacity:1;transform:none;}
 
-/* ── new review highlight animation ── */
 @keyframes newCardSlide{
   from{opacity:0;transform:translateY(-20px) scale(0.96);}
   to{opacity:1;transform:none;}
 }
 .rv-card.new-card{animation:newCardSlide .5s ease both;}
 
+/* ── RESPONSIVE ── */
 @media(max-width:960px){
   .nav-links{display:none;}
   .hamburger{display:flex;}
@@ -684,7 +681,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .who-join-cards{grid-template-columns:1fr 1fr;max-width:600px;}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .chatbot-btn-label{font-size:12px;}
-  .rv-card{flex:0 0 280px;width:280px;}
   .review-form-grid{grid-template-columns:1fr;}
 }
 @media(max-width:640px){
@@ -706,7 +702,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .form-box{padding:24px 18px;}
   .policy-grid{grid-template-columns:1fr;}
   .gallery-upload-btn{width:100%;justify-content:center;}
-  .rv-card{flex:0 0 260px;width:260px;}
 }
 @media(max-width:400px){
   .section-inner{padding:60px 4%;}
@@ -716,7 +711,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .chatbot-window{width:calc(100vw - 24px);}
   .courses-grid{grid-template-columns:1fr;}
   .who-join-cards{grid-template-columns:1fr;}
-  .rv-card{flex:0 0 240px;width:240px;}
 }
 </style>
 </head>
@@ -782,7 +776,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
       <div class="hstat"><span class="hstat-num">6+</span><span class="hstat-label">Courses Offered</span></div>
       <div class="hstat"><span class="hstat-num">100%</span><span class="hstat-label">Future Ready</span></div>
     </div>
-    <!-- LIVE VIEWS BADGE -->
     <div class="views-badge" id="heroViewsBadge">
       <div class="vb-dot"></div>
       <span id="heroViewsCount">1,000+</span> people have visited this page
@@ -932,9 +925,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     REVIEWS SECTION — After Teachers (realtime)
-══════════════════════════════════════════════ -->
+<!-- ══ REVIEWS ══ -->
 <section id="reviews">
   <div class="section-inner">
     <div style="text-align:center;">
@@ -943,10 +934,8 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
       <p class="section-desc" style="margin:0 auto;">Real feedback from real students and parents in Arifwala and beyond.</p>
     </div>
 
-    <!-- Horizontal Carousel -->
     <div class="reviews-carousel-wrap reveal">
       <div class="reviews-track" id="reviewsTrack">
-        <!-- Cards injected by JS -->
         <div style="padding:40px;color:var(--text-3);font-size:14px;text-align:center;width:100%;">Loading reviews...</div>
       </div>
       <div class="carousel-nav">
@@ -956,11 +945,9 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
       </div>
     </div>
 
-    <!-- Submit Review Form -->
     <div class="review-form-box reveal">
       <div class="review-form-title">✍️ Share Your Experience</div>
       <div class="review-form-subtitle">Your honest feedback helps other families make the right decision. Reviews go live after approval.</div>
-
       <div class="star-picker" id="starPicker">
         <span data-val="1" onclick="setRating(1)">⭐</span>
         <span data-val="2" onclick="setRating(2)">⭐</span>
@@ -968,16 +955,9 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         <span data-val="4" onclick="setRating(4)">⭐</span>
         <span data-val="5" onclick="setRating(5)">⭐</span>
       </div>
-
       <div class="review-form-grid">
-        <div class="rf-group">
-          <label class="rf-label">Your Name *</label>
-          <input class="rf-input" type="text" id="rv-name" placeholder="e.g. Fatima A.">
-        </div>
-        <div class="rf-group">
-          <label class="rf-label">Your Role</label>
-          <input class="rf-input" type="text" id="rv-role" placeholder="e.g. Student · 9th Class">
-        </div>
+        <div class="rf-group"><label class="rf-label">Your Name *</label><input class="rf-input" type="text" id="rv-name" placeholder="e.g. Fatima A."></div>
+        <div class="rf-group"><label class="rf-label">Your Role</label><input class="rf-input" type="text" id="rv-role" placeholder="e.g. Student · 9th Class"></div>
       </div>
       <div class="rf-group" style="margin-bottom:18px;">
         <label class="rf-label">Your Review *</label>
@@ -1000,16 +980,13 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
       <h2 class="section-title">Photos & Videos</h2>
       <p class="section-desc" style="margin:0 auto;">A glimpse into life at National Academy — real classrooms, real students, real impact.</p>
     </div>
-
     <div class="gallery-toggle-bar">
       <button class="btn-gallery-toggle" id="galleryToggleBtn" onclick="toggleGallerySection()">
         <span class="gtoggle-icon">📸</span>
         <span id="galleryToggleTxt">View Photos & Videos</span>
       </button>
     </div>
-
     <div class="gallery-section-content" id="gallerySectionContent">
-
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <div class="gallery-tabs">
           <div class="gtab active" onclick="switchGalleryTab('photos', this)">📷 Photos</div>
@@ -1019,7 +996,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           <button class="btn-admin-toggle" onclick="showAdminLock()" id="adminToggleBtn">🔐 Admin Upload</button>
         </div>
       </div>
-
       <div id="adminLockBox" style="display:none;margin-top:20px;">
         <div style="position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:40px;text-align:center;">
           <div style="font-size:36px;margin-bottom:10px;">🔐</div>
@@ -1033,14 +1009,12 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           </div>
         </div>
       </div>
-
       <div class="admin-controls" id="adminControls">
         <div style="background:rgba(13,148,136,0.06);border:1px dashed var(--border-bright);border-radius:14px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <span style="font-size:13px;color:var(--teal-light);font-weight:600;">🟢 Admin Mode Active</span>
           <span style="font-size:12px;color:var(--text-3);">You can now add photos and videos.</span>
           <button onclick="lockAdmin()" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;color:var(--text-2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">🔒 Lock</button>
         </div>
-
         <div id="adminPhotoUpload" style="margin-top:16px;">
           <div class="gallery-upload-area" id="photoUploadArea">
             <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp,image/gif" multiple onchange="handleFiles(this.files)" style="display:none;">
@@ -1050,7 +1024,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
             <button class="gallery-upload-btn" onclick="document.getElementById('fileInput').click()">📸 Choose Photos</button>
           </div>
         </div>
-
         <div id="adminVideoUpload" style="display:none;margin-top:16px;">
           <div class="gallery-upload-area" id="videoUploadArea">
             <input type="file" id="videoFileInput" accept="video/mp4,video/x-m4v,video/quicktime,video/mov,video/webm,video/ogg,video/*" multiple onchange="handleVideoFiles(this.files)" style="display:none;">
@@ -1062,7 +1035,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           <div id="videoUploadProgressList" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
       </div>
-
       <div id="photosTab" style="margin-top:20px;">
         <div class="gallery-grid" id="galleryGrid">
           <div class="gallery-item" style="cursor:default;"><div class="gallery-item-placeholder"><span>🏫</span><span>Classroom</span></div></div>
@@ -1071,12 +1043,10 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           <div class="gallery-item" style="cursor:default;"><div class="gallery-item-placeholder"><span>📚</span><span>Study Sessions</span></div></div>
         </div>
       </div>
-
       <div id="videosTab" style="display:none;margin-top:20px;">
         <div class="videos-grid" id="videosGrid"></div>
         <div id="noVideos" style="text-align:center;padding:40px;color:var(--text-3);font-size:14px;">No videos added yet. Admin can upload videos above.</div>
       </div>
-
     </div>
   </div>
 </section>
@@ -1100,7 +1070,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
     </div>
     <div class="admission-grid">
       <div class="form-box reveal">
-        <!-- RATING BADGE near form -->
         <div class="rating-badge-inline">
           <div class="rbi-stars">⭐⭐⭐⭐⭐</div>
           <div>
@@ -1228,57 +1197,70 @@ function supaFetch(path, opts={}){
 }
 
 // ═══════════════════════════════════════════════
-// PAGE VIEWS — Realtime counter
+// PAGE VIEWS — FIXED: proper RPC call + GET
 // ═══════════════════════════════════════════════
-let currentViewCount = 1000;
-
 async function initViews(){
   try {
-    // Increment view using the RPC function
-    await supaFetch('/rest/v1/rpc/increment_view_count', { method:'POST', body:'{}' });
+    // 1. Increment via RPC — body must be valid JSON object
+    await supaFetch('/rest/v1/rpc/increment_view_count', {
+      method: 'POST',
+      body: JSON.stringify({})
+    });
 
-    // Fetch current count
-    const res = await supaFetch('/rest/v1/page_views?select=view_count&limit=1', { method:'GET' });
+    // 2. Read the updated count
+    const res = await supaFetch(
+      '/rest/v1/page_views?select=view_count&limit=1',
+      { method: 'GET' }
+    );
+
     if(res.ok){
       const data = await res.json();
-      if(data && data[0]){
-        currentViewCount = data[0].view_count;
-        updateViewsDisplay(currentViewCount);
+      if(data && data.length > 0){
+        updateViewsDisplay(data[0].view_count);
       }
     }
 
-    // Subscribe to realtime updates on page_views
+    // 3. Subscribe to realtime updates
     setupViewsRealtime();
-  } catch(e){ console.warn('Views error:', e); }
+  } catch(e){
+    console.warn('Views error:', e);
+  }
 }
 
 function updateViewsDisplay(count){
-  const formatted = count >= 1000
-    ? (count >= 10000 ? Math.floor(count/1000) + 'K+' : count.toLocaleString()+'+')
-    : count + '+';
+  const n = parseInt(count, 10);
+  let formatted;
+  if(n >= 10000)      formatted = Math.floor(n/1000) + 'K+';
+  else if(n >= 1000)  formatted = n.toLocaleString() + '+';
+  else                formatted = n + '+';
   const el = document.getElementById('heroViewsCount');
   if(el) el.textContent = formatted;
 }
 
-// ── Supabase Realtime via WebSocket ──
 function setupViewsRealtime(){
   try {
     const wsUrl = SUPA_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SUPA_KEY + '&vsn=1.0.0';
     const ws = new WebSocket(wsUrl);
     ws.onopen = () => {
       ws.send(JSON.stringify({
-        topic:'realtime:public:page_views',
-        event:'phx_join',
-        payload:{ config:{ broadcast:{self:false}, presence:{key:''}, postgres_changes:[{event:'UPDATE', schema:'public', table:'page_views'}] } },
-        ref:'1'
+        topic: 'realtime:public:page_views',
+        event: 'phx_join',
+        payload: {
+          config: {
+            broadcast: { self: false },
+            presence: { key: '' },
+            postgres_changes: [{ event: 'UPDATE', schema: 'public', table: 'page_views' }]
+          }
+        },
+        ref: '1'
       }));
     };
     ws.onmessage = (evt) => {
       try {
         const msg = JSON.parse(evt.data);
-        if(msg.event === 'postgres_changes' && msg.payload?.data?.record?.view_count){
-          currentViewCount = msg.payload.data.record.view_count;
-          updateViewsDisplay(currentViewCount);
+        if(msg.payload && msg.payload.data && msg.payload.data.record){
+          const count = msg.payload.data.record.view_count;
+          if(count) updateViewsDisplay(count);
         }
       } catch(e){}
     };
@@ -1287,27 +1269,43 @@ function setupViewsRealtime(){
 }
 
 // ═══════════════════════════════════════════════
-// REVIEWS — Carousel + Realtime + Submit
+// REVIEWS — Carousel with responsive card count
 // ═══════════════════════════════════════════════
 let allReviews = [];
 let carouselPos = 0;
-const VISIBLE_CARDS = 3;
-let carouselCardWidth = 340; // updated dynamically
-let isDragging = false, startX = 0, startScroll = 0;
+let cardsVisible = 3;   // updated by getCardsVisible()
+let carouselGap = 20;
+let carouselCardW = 0;  // computed after render
+let isDragging = false, startX = 0;
 let selectedRating = 5;
+let autoTimer = null;
 
-// Avatar colors
 const AVATAR_COLORS = ['#0d9488','#7c3aed','#db2777','#ea580c','#059669','#0284c7','#d97706','#be185d'];
 function getAvatarColor(name){ let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%AVATAR_COLORS.length; return AVATAR_COLORS[h]; }
 function getInitials(name){ return name.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?'; }
+function starsHtml(r){ return Array.from({length:5},(_,i)=>`<span class="rv-star">${i<r?'⭐':'☆'}</span>`).join(''); }
+function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function starsHtml(rating){
-  return Array.from({length:5},(_,i)=>`<span class="rv-star">${i<rating?'⭐':'☆'}</span>`).join('');
+/* How many cards fit at current viewport */
+function getCardsVisible(){
+  const w = window.innerWidth;
+  if(w <= 600) return 1;
+  if(w <= 960) return 2;
+  return 3;
+}
+
+/* Compute the pixel width each card should be */
+function computeCardWidth(){
+  const wrap = document.querySelector('.reviews-carousel-wrap');
+  if(!wrap) return 300;
+  const cv = getCardsVisible();
+  const totalGap = carouselGap * (cv - 1);
+  return Math.floor((wrap.clientWidth - totalGap) / cv);
 }
 
 function buildReviewCard(rv, isNew=false){
   const div = document.createElement('div');
-  div.className = 'rv-card' + (isNew?' new-card':'');
+  div.className = 'rv-card' + (isNew ? ' new-card' : '');
   const col = getAvatarColor(rv.name);
   const ini = getInitials(rv.name);
   div.innerHTML = `
@@ -1323,88 +1321,95 @@ function buildReviewCard(rv, isNew=false){
   return div;
 }
 
-function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function applyCardWidths(){
+  cardsVisible = getCardsVisible();
+  carouselCardW = computeCardWidth();
+  document.querySelectorAll('.rv-card').forEach(c => {
+    c.style.flex = `0 0 ${carouselCardW}px`;
+    c.style.width = `${carouselCardW}px`;
+  });
+}
 
 function renderCarousel(){
   const track = document.getElementById('reviewsTrack');
   track.innerHTML = '';
   allReviews.forEach(rv => track.appendChild(buildReviewCard(rv)));
-
-  // Card width from CSS or computed
-  const firstCard = track.querySelector('.rv-card');
-  if(firstCard){
-    carouselCardWidth = firstCard.offsetWidth + 20; // +gap
-  }
+  applyCardWidths();
   buildDots();
   applyCarouselPos(0, false);
+  startAutoAdvance();
 }
 
 function buildDots(){
   const dotsEl = document.getElementById('carouselDots');
   dotsEl.innerHTML = '';
-  const pages = Math.max(1, allReviews.length - VISIBLE_CARDS + 1);
-  const maxDots = Math.min(pages, 8);
-  for(let i=0;i<maxDots;i++){
+  const maxPos = Math.max(0, allReviews.length - cardsVisible);
+  const pages = maxPos + 1;
+  const maxDots = Math.min(pages, 10);
+  for(let i = 0; i < maxDots; i++){
     const d = document.createElement('div');
-    d.className = 'cdot' + (i===0?' active':'');
-    d.onclick = (()=>{ const idx=i; return ()=>applyCarouselPos(idx,true); })();
+    d.className = 'cdot' + (i === 0 ? ' active' : '');
+    const idx = i;
+    d.onclick = () => applyCarouselPos(idx, true);
     dotsEl.appendChild(d);
   }
 }
 
 function applyCarouselPos(pos, animate=true){
   const track = document.getElementById('reviewsTrack');
-  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
+  const maxPos = Math.max(0, allReviews.length - cardsVisible);
   pos = Math.max(0, Math.min(pos, maxPos));
   carouselPos = pos;
-  const offset = pos * carouselCardWidth;
+  const offset = pos * (carouselCardW + carouselGap);
   track.style.transition = animate ? 'transform .45s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
   track.style.transform = `translateX(-${offset}px)`;
-
-  // Update dots
-  document.querySelectorAll('.cdot').forEach((d,i)=>{
-    d.classList.toggle('active', i===pos);
-  });
+  document.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === pos));
 }
 
 function carouselNext(){
-  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
-  applyCarouselPos(carouselPos >= maxPos ? 0 : carouselPos+1, true);
+  const maxPos = Math.max(0, allReviews.length - cardsVisible);
+  applyCarouselPos(carouselPos >= maxPos ? 0 : carouselPos + 1, true);
 }
 function carouselPrev(){
-  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
-  applyCarouselPos(carouselPos <= 0 ? maxPos : carouselPos-1, true);
+  const maxPos = Math.max(0, allReviews.length - cardsVisible);
+  applyCarouselPos(carouselPos <= 0 ? maxPos : carouselPos - 1, true);
 }
 
-// Auto-advance every 5 seconds
-setInterval(carouselNext, 5000);
+function startAutoAdvance(){
+  if(autoTimer) clearInterval(autoTimer);
+  autoTimer = setInterval(carouselNext, 5000);
+}
 
-// Drag/swipe support
+/* Recalculate on resize */
+window.addEventListener('resize', () => {
+  applyCardWidths();
+  buildDots();
+  applyCarouselPos(Math.min(carouselPos, Math.max(0, allReviews.length - cardsVisible)), false);
+});
+
+/* Drag / swipe */
 function initCarouselDrag(){
   const track = document.getElementById('reviewsTrack');
-
   function onDown(e){
     isDragging = true;
-    startX = e.type==='touchstart' ? e.touches[0].clientX : e.clientX;
+    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
     track.style.transition = 'none';
   }
   function onMove(e){
     if(!isDragging) return;
-    const x = e.type==='touchmove' ? e.touches[0].clientX : e.clientX;
+    const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const diff = startX - x;
-    const offset = carouselPos * carouselCardWidth + diff;
+    const offset = carouselPos * (carouselCardW + carouselGap) + diff;
     track.style.transform = `translateX(-${offset}px)`;
   }
   function onUp(e){
     if(!isDragging) return;
     isDragging = false;
-    const x = e.type==='touchend' ? e.changedTouches[0].clientX : e.clientX;
+    const x = e.type === 'touchend' ? e.changedTouches[0].clientX : e.clientX;
     const diff = startX - x;
-    if(Math.abs(diff) > 50){
-      diff > 0 ? carouselNext() : carouselPrev();
-    } else {
-      applyCarouselPos(carouselPos, true);
-    }
+    if(Math.abs(diff) > 50){ diff > 0 ? carouselNext() : carouselPrev(); }
+    else { applyCarouselPos(carouselPos, true); }
+    startAutoAdvance();
   }
   track.addEventListener('mousedown', onDown);
   track.addEventListener('mousemove', onMove);
@@ -1417,7 +1422,7 @@ function initCarouselDrag(){
 
 async function loadReviews(){
   try {
-    const res = await supaFetch('/rest/v1/reviews?select=*&approved=eq.true&order=created_at.asc', { method:'GET' });
+    const res = await supaFetch('/rest/v1/reviews?select=*&approved=eq.true&order=created_at.asc', {method:'GET'});
     if(!res.ok) return;
     const data = await res.json();
     allReviews = data || [];
@@ -1436,7 +1441,6 @@ function updateFormRatingBadge(){
   if(el2) el2.textContent = 'by ' + allReviews.length + ' verified parents & students';
 }
 
-// Realtime reviews subscription
 function setupReviewsRealtime(){
   try {
     const wsUrl = SUPA_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SUPA_KEY + '&vsn=1.0.0';
@@ -1445,29 +1449,39 @@ function setupReviewsRealtime(){
       ws.send(JSON.stringify({
         topic:'realtime:public:reviews',
         event:'phx_join',
-        payload:{ config:{ postgres_changes:[{event:'INSERT', schema:'public', table:'reviews', filter:'approved=eq.true'}] } },
+        payload:{ config:{ postgres_changes:[{event:'UPDATE', schema:'public', table:'reviews'}] } },
         ref:'2'
       }));
     };
     ws.onmessage = (evt) => {
       try {
         const msg = JSON.parse(evt.data);
-        if(msg.event === 'postgres_changes' && msg.payload?.data?.record){
+        if(msg.payload && msg.payload.data && msg.payload.data.record){
           const rv = msg.payload.data.record;
           if(rv.approved){
-            allReviews.push(rv);
-            const track = document.getElementById('reviewsTrack');
-            track.appendChild(buildReviewCard(rv, true));
-            buildDots();
-            updateFormRatingBadge();
-            // Jump to new card
-            setTimeout(()=>applyCarouselPos(allReviews.length - VISIBLE_CARDS, true), 300);
+            // Add to carousel only if not already there
+            const exists = allReviews.some(r => r.id === rv.id);
+            if(!exists){
+              allReviews.push(rv);
+              const track = document.getElementById('reviewsTrack');
+              const card = buildReviewCard(rv, true);
+              applyCardWidths_single(card);
+              track.appendChild(card);
+              buildDots();
+              updateFormRatingBadge();
+              setTimeout(()=>applyCarouselPos(Math.max(0, allReviews.length - cardsVisible), true), 300);
+            }
           }
         }
       } catch(e){}
     };
     ws.onerror = ()=>{};
   } catch(e){}
+}
+
+function applyCardWidths_single(card){
+  card.style.flex = `0 0 ${carouselCardW}px`;
+  card.style.width = `${carouselCardW}px`;
 }
 
 // Star picker
@@ -1477,46 +1491,39 @@ function setRating(val){
     s.classList.toggle('lit', i < val);
   });
 }
-// Init stars lit by default (5)
-document.addEventListener('DOMContentLoaded', ()=>{ setRating(5); });
 
 async function submitReview(){
   const name = document.getElementById('rv-name').value.trim();
   const role = document.getElementById('rv-role').value.trim();
   const review = document.getElementById('rv-text').value.trim();
   if(!name||!review){ alert('Please enter your name and review.'); return; }
-
   const btn = document.getElementById('rvSubmitBtn');
   const txt = document.getElementById('rvSubmitTxt');
   btn.disabled = true; txt.textContent = 'Submitting...';
-
   try {
     const res = await supaFetch('/rest/v1/reviews', {
       method:'POST',
-      body: JSON.stringify({ name, role, review, rating:selectedRating, approved:false }),
+      body: JSON.stringify({ name, role, review, rating: selectedRating, approved: false }),
       headers:{ 'Prefer':'return=minimal' }
     });
-    if(res.ok || res.status===201){
+    if(res.ok || res.status === 201){
       document.getElementById('rv-name').value='';
       document.getElementById('rv-role').value='';
       document.getElementById('rv-text').value='';
       setRating(5);
       document.getElementById('rvSuccess').style.display='block';
-      setTimeout(()=>{ document.getElementById('rvSuccess').style.display='none'; },6000);
+      setTimeout(()=>{ document.getElementById('rvSuccess').style.display='none'; }, 6000);
       txt.textContent='✅ Submitted!';
-      setTimeout(()=>{ txt.textContent='Submit Review'; btn.disabled=false; },3000);
-    } else {
-      throw new Error('Submit failed');
-    }
+      setTimeout(()=>{ txt.textContent='Submit Review'; btn.disabled=false; }, 3000);
+    } else { throw new Error('Submit failed'); }
   } catch(e){
-    txt.textContent='Failed — Try Again';
-    btn.disabled=false;
-    setTimeout(()=>{ txt.textContent='Submit Review'; },3000);
+    txt.textContent='Failed — Try Again'; btn.disabled=false;
+    setTimeout(()=>{ txt.textContent='Submit Review'; }, 3000);
   }
 }
 
 // ═══════════════════════════════════════════════
-// GALLERY FUNCTIONS (unchanged)
+// GALLERY FUNCTIONS (unchanged from original)
 // ═══════════════════════════════════════════════
 let adminUnlocked = false;
 
@@ -1535,15 +1542,12 @@ function toggleGallerySection(){
   const btn = document.getElementById('galleryToggleBtn');
   const txt = document.getElementById('galleryToggleTxt');
   if(galleryOpen){
-    content.classList.add('open');
-    btn.classList.add('open');
+    content.classList.add('open'); btn.classList.add('open');
     txt.textContent = 'Hide Photos & Videos';
   } else {
-    content.classList.remove('open');
-    btn.classList.remove('open');
+    content.classList.remove('open'); btn.classList.remove('open');
     txt.textContent = 'View Photos & Videos';
-    document.getElementById('lightboxIframe').src='';
-    closeLightbox();
+    document.getElementById('lightboxIframe').src=''; closeLightbox();
   }
 }
 
@@ -1560,8 +1564,7 @@ function hideAdminLock(){
 function checkAdminPass(){
   const val = document.getElementById('adminPasswordInput').value;
   if(val === ADMIN_PASSWORD){
-    adminUnlocked = true;
-    hideAdminLock();
+    adminUnlocked = true; hideAdminLock();
     document.getElementById('adminControls').classList.add('unlocked');
     document.getElementById('adminToggleBtn').textContent = '🔒 Lock Admin';
     syncAdminUploadPanel();
@@ -1580,7 +1583,6 @@ function syncAdminUploadPanel(){
   document.getElementById('adminPhotoUpload').style.display = activeTab.includes('Photos') ? 'block' : 'none';
   document.getElementById('adminVideoUpload').style.display = activeTab.includes('Videos') ? 'block' : 'none';
 }
-
 function switchGalleryTab(tab, el){
   document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -1588,7 +1590,6 @@ function switchGalleryTab(tab, el){
   document.getElementById('videosTab').style.display = tab==='videos' ? '' : 'none';
   if(adminUnlocked) syncAdminUploadPanel();
 }
-
 function openLightbox(src, caption){
   document.getElementById('lightboxImg').src = src;
   document.getElementById('lightboxImg').style.display = 'block';
@@ -1653,7 +1654,7 @@ async function saveGalleryItem(type, url, caption){
 
 async function loadGalleryFromStorage(){
   try {
-    const res = await supaFetch(`/rest/v1/${GALL_TABLE}?select=*&order=created_at.asc`, { method:'GET' });
+    const res = await supaFetch(`/rest/v1/${GALL_TABLE}?select=*&order=created_at.asc`, {method:'GET'});
     if(!res.ok) return;
     const items = await res.json();
     document.getElementById('galleryGrid').querySelectorAll('.gallery-item').forEach(el=>el.remove());
@@ -1743,7 +1744,7 @@ function toggleChat(){
   win.classList.toggle('open'); label.textContent=win.classList.contains('open')?'Close Chat ✕':'Talk to our AI Assistant';
 }
 
-let chatConversation=[], enrollmentState=null, enrollmentData={};
+let chatConversation=[],enrollmentState=null,enrollmentData={};
 const CHAT_SESSION_ID='session_'+Math.random().toString(36).substr(2,9)+'_'+Date.now();
 const enrollmentSteps=[
   {key:'name',prompt:'What is the student\'s full name? 📝'},
@@ -1809,9 +1810,10 @@ const revealObserver=new IntersectionObserver((entries)=>{ entries.forEach((entr
 document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
 
 // ═══════════════════════════════════════════════
-// INIT on DOM ready
+// INIT
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', ()=>{
+  setRating(5);
   initViews();
   loadReviews();
   loadGalleryFromStorage();
