@@ -1201,23 +1201,31 @@ function supaFetch(path, opts={}){
 // ═══════════════════════════════════════════════
 async function initViews(){
   try {
-    // 1. Increment via RPC — body must be valid JSON object
-    await supaFetch('/rest/v1/rpc/increment_view_count', {
-      method: 'POST',
-      body: JSON.stringify({})
-    });
+    // 1. Get current row (we need the id to update it)
+    const getRes = await supaFetch('/rest/v1/page_views?select=id,view_count&limit=1', { method: 'GET' });
+    if(!getRes.ok) { console.warn('Views fetch failed', getRes.status); return; }
+    const rows = await getRes.json();
 
-    // 2. Read the updated count
-    const res = await supaFetch(
-      '/rest/v1/page_views?select=view_count&limit=1',
-      { method: 'GET' }
-    );
+    if(rows && rows.length > 0){
+      const row = rows[0];
+      const newCount = (parseInt(row.view_count, 10) || 1000) + 1;
 
-    if(res.ok){
-      const data = await res.json();
-      if(data && data.length > 0){
-        updateViewsDisplay(data[0].view_count);
-      }
+      // 2. Increment by 1 using direct PATCH (no RPC needed)
+      await supaFetch('/rest/v1/page_views?id=eq.' + row.id, {
+        method: 'PATCH',
+        body: JSON.stringify({ view_count: newCount }),
+        headers: { 'Prefer': 'return=minimal' }
+      });
+
+      updateViewsDisplay(newCount);
+    } else {
+      // No row exists yet — insert one starting at 1001
+      await supaFetch('/rest/v1/page_views', {
+        method: 'POST',
+        body: JSON.stringify({ view_count: 1001 }),
+        headers: { 'Prefer': 'return=minimal' }
+      });
+      updateViewsDisplay(1001);
     }
 
     // 3. Subscribe to realtime updates
@@ -1496,29 +1504,69 @@ async function submitReview(){
   const name = document.getElementById('rv-name').value.trim();
   const role = document.getElementById('rv-role').value.trim();
   const review = document.getElementById('rv-text').value.trim();
-  if(!name||!review){ alert('Please enter your name and review.'); return; }
+  if(!name || !review){ alert('Please enter your name and review.'); return; }
+
   const btn = document.getElementById('rvSubmitBtn');
   const txt = document.getElementById('rvSubmitTxt');
-  btn.disabled = true; txt.textContent = 'Submitting...';
+  btn.disabled = true;
+  txt.textContent = 'Submitting...';
+
   try {
-    const res = await supaFetch('/rest/v1/reviews', {
-      method:'POST',
-      body: JSON.stringify({ name, role, review, rating: selectedRating, approved: false }),
-      headers:{ 'Prefer':'return=minimal' }
+    // ── STEP 1: Send directly to n8n ──
+    // n8n will insert into Supabase using the service_role key (no RLS issues)
+    // and send approval emails — all in one webhook call
+    const payload = {
+      type: 'new_review',
+      sessionId: 'review_' + Date.now(),
+      data: { name, role, review, rating: selectedRating }
+    };
+
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
-    if(res.ok || res.status === 201){
-      document.getElementById('rv-name').value='';
-      document.getElementById('rv-role').value='';
-      document.getElementById('rv-text').value='';
+
+    // n8n returns 200 on success (even if it returns nothing, treat as ok)
+    if(res.ok || res.status === 200 || res.status === 201){
+      // ── STEP 2: Show success immediately ──
+      document.getElementById('rv-name').value = '';
+      document.getElementById('rv-role').value = '';
+      document.getElementById('rv-text').value = '';
       setRating(5);
-      document.getElementById('rvSuccess').style.display='block';
-      setTimeout(()=>{ document.getElementById('rvSuccess').style.display='none'; }, 6000);
-      txt.textContent='✅ Submitted!';
-      setTimeout(()=>{ txt.textContent='Submit Review'; btn.disabled=false; }, 3000);
-    } else { throw new Error('Submit failed'); }
+      document.getElementById('rvSuccess').style.display = 'block';
+      setTimeout(() => document.getElementById('rvSuccess').style.display = 'none', 6000);
+      txt.textContent = '✅ Submitted!';
+      setTimeout(() => { txt.textContent = 'Submit Review'; btn.disabled = false; }, 3000);
+    } else {
+      throw new Error('n8n webhook returned: ' + res.status);
+    }
+
   } catch(e){
-    txt.textContent='Failed — Try Again'; btn.disabled=false;
-    setTimeout(()=>{ txt.textContent='Submit Review'; }, 3000);
+    console.error('Review submit error:', e);
+    // ── FALLBACK: If n8n fails, insert directly into Supabase ──
+    try {
+      const fallback = await supaFetch('/rest/v1/reviews', {
+        method: 'POST',
+        body: JSON.stringify({ name, role, review, rating: selectedRating, approved: false }),
+        headers: { 'Prefer': 'return=representation' }
+      });
+      if(fallback.status === 200 || fallback.status === 201){
+        document.getElementById('rv-name').value = '';
+        document.getElementById('rv-role').value = '';
+        document.getElementById('rv-text').value = '';
+        setRating(5);
+        document.getElementById('rvSuccess').style.display = 'block';
+        setTimeout(() => document.getElementById('rvSuccess').style.display = 'none', 6000);
+        txt.textContent = '✅ Submitted!';
+        setTimeout(() => { txt.textContent = 'Submit Review'; btn.disabled = false; }, 3000);
+        return;
+      }
+    } catch(e2){ console.error('Fallback also failed:', e2); }
+
+    txt.textContent = 'Failed — Try Again';
+    btn.disabled = false;
+    setTimeout(() => txt.textContent = 'Submit Review', 3000);
   }
 }
 
