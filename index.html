@@ -211,6 +211,23 @@ h1.hero-title{
 }
 .hstat-label{font-size:11px;color:var(--text-3);letter-spacing:1.5px;text-transform:uppercase;}
 
+/* ── VIEWS BADGE in hero stats ── */
+.views-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(13,148,136,0.1);border:1px solid var(--border-bright);
+  border-radius:50px;padding:5px 14px;font-size:12px;
+  color:var(--teal-light);font-weight:600;
+  animation:fadeUp .6s .55s ease both;
+  margin-top:14px;
+}
+.views-badge .vb-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 8px #22c55e;
+  animation:pulseDot 1.5s infinite;
+}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.3);}}
+
 .hero-cards{
   position:absolute;right:5%;top:50%;transform:translateY(-50%);
   width:min(40%,440px);display:flex;flex-direction:column;gap:14px;
@@ -347,6 +364,151 @@ section{position:relative;z-index:1;}
 .trole{font-size:13px;color:var(--teal-light);font-weight:600;margin-bottom:8px;letter-spacing:.5px;}
 .tspeciality{font-size:13px;color:var(--text-2);line-height:1.6;}
 
+/* ══════════════════════════════════════
+   REVIEWS SECTION — Horizontal Carousel
+══════════════════════════════════════ */
+#reviews{background:var(--bg-1);}
+
+.reviews-carousel-wrap{
+  position:relative;
+  margin-top:40px;
+  overflow:hidden;
+}
+
+/* Track: wide enough to hold all cards side by side */
+.reviews-track{
+  display:flex;
+  gap:20px;
+  transition:transform .45s cubic-bezier(0.25,0.46,0.45,0.94);
+  will-change:transform;
+  cursor:grab;
+  user-select:none;
+}
+.reviews-track:active{cursor:grabbing;}
+
+/* Each review card — fixed width */
+.rv-card{
+  flex:0 0 320px;
+  width:320px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 22px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .3s, transform .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+.rv-card:hover{border-color:var(--border-bright);transform:translateY(-3px);}
+.rv-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal-dark),var(--teal-light),var(--amber));
+}
+.rv-stars{display:flex;gap:2px;margin-bottom:12px;}
+.rv-star{font-size:15px;}
+.rv-quote{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:18px;font-style:italic;}
+.rv-footer{display:flex;align-items:center;gap:12px;}
+.rv-avatar{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;
+  flex-shrink:0;
+}
+.rv-name{font-weight:700;font-size:14px;display:block;}
+.rv-role{font-size:11px;color:var(--text-3);}
+.rv-tag{
+  margin-top:6px;display:inline-block;
+  border-radius:50px;padding:2px 10px;
+  font-size:10px;letter-spacing:.5px;font-weight:600;
+}
+
+/* Carousel nav arrows */
+.carousel-nav{
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;margin-top:24px;
+}
+.carousel-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(13,148,136,0.1);border:1px solid var(--border-bright);
+  color:var(--teal-light);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;
+}
+.carousel-btn:hover{background:rgba(13,148,136,0.22);transform:scale(1.08);}
+.carousel-dots{display:flex;gap:6px;align-items:center;}
+.cdot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(13,148,136,0.25);transition:all .25s;
+  cursor:pointer;
+}
+.cdot.active{background:var(--teal-light);width:18px;border-radius:3px;}
+
+/* ── SUBMIT REVIEW FORM ── */
+.review-form-box{
+  background:var(--bg-card2);
+  border:1px solid var(--border);
+  border-radius:20px;padding:32px;
+  position:relative;overflow:hidden;
+  margin-top:48px;
+}
+.review-form-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--teal-dark),var(--teal-light),var(--amber));
+}
+.review-form-title{
+  font-family:'Playfair Display',serif;
+  font-size:20px;color:var(--teal-light);margin-bottom:6px;
+}
+.review-form-subtitle{font-size:13px;color:var(--text-3);margin-bottom:22px;}
+
+.star-picker{display:flex;gap:8px;margin-bottom:22px;}
+.star-picker span{
+  font-size:30px;cursor:pointer;transition:transform .15s;
+  filter:grayscale(1) opacity(0.4);
+}
+.star-picker span.lit{filter:none;}
+.star-picker span:hover{transform:scale(1.15);}
+
+.review-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.rf-group{display:flex;flex-direction:column;gap:6px;}
+.rf-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);font-weight:600;}
+.rf-input{
+  background:rgba(2,11,10,0.8);border:1px solid var(--border);
+  border-radius:9px;padding:11px 14px;
+  color:var(--text-1);font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;transition:border-color .25s;
+}
+.rf-input:focus{border-color:var(--teal-light);box-shadow:0 0 0 3px rgba(13,148,136,0.08);}
+.rf-textarea{resize:vertical;min-height:100px;}
+.rf-submit{
+  background:linear-gradient(135deg,var(--teal-dark),var(--teal-light));
+  color:#fff;border:none;padding:13px 28px;
+  border-radius:10px;font-family:'DM Sans',sans-serif;
+  font-weight:700;font-size:14px;cursor:pointer;
+  transition:all .3s;display:inline-flex;align-items:center;gap:8px;
+  letter-spacing:.3px;
+}
+.rf-submit:hover{transform:translateY(-2px);box-shadow:0 10px 28px var(--teal-glow);}
+.rf-note{font-size:12px;color:var(--text-3);margin-top:10px;}
+.rf-success{
+  display:none;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);
+  border-radius:10px;padding:14px 18px;margin-top:14px;
+  color:#4ade80;font-size:14px;font-weight:600;
+}
+
+/* ── RATING BADGE (used near enrollment form) ── */
+.rating-badge-inline{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.3);
+  border-radius:50px;padding:8px 18px;
+  margin-bottom:20px;
+}
+.rbi-stars{display:flex;gap:2px;}
+.rbi-text{font-size:13px;color:var(--amber-light);font-weight:700;}
+.rbi-sub{font-size:11px;color:var(--text-3);}
+
+/* ── GALLERY ── */
 .who-join-peek{position:relative;margin-top:56px;padding-top:48px;}
 .who-join-peek::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);}
 .who-join-title{text-align:center;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--teal-light);margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:12px;}
@@ -363,8 +525,6 @@ section{position:relative;z-index:1;}
 .wjcard.b .wjcard-title{color:#93c5fd;}
 .wjcard.o .wjcard-title{color:var(--teal-light);}
 .wjcard-desc{font-size:12px;color:var(--text-2);line-height:1.5;}
-.who-join-expand{display:none;}
-.btn-show-join{display:none;}
 
 .gallery-toggle-bar{display:flex;justify-content:center;margin-top:50px;}
 .btn-gallery-toggle{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal-dark),var(--teal-light));color:#fff;border:none;padding:14px 32px;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .3s;letter-spacing:.5px;box-shadow:0 8px 28px var(--teal-glow);}
@@ -393,44 +553,15 @@ section{position:relative;z-index:1;}
 .admin-controls{display:none;margin-top:16px;}
 .admin-controls.unlocked{display:block;}
 
-/* ══ VIDEO UPLOAD AREA — improved for mobile ══ */
-.gallery-upload-area{
-  border:2px dashed var(--border-bright);border-radius:20px;
-  padding:36px 24px;text-align:center;
-  background:rgba(13,148,136,0.04);
-  transition:all .3s;margin-top:16px;
-  position:relative;
-}
+.gallery-upload-area{border:2px dashed var(--border-bright);border-radius:20px;padding:36px 24px;text-align:center;background:rgba(13,148,136,0.04);transition:all .3s;margin-top:16px;position:relative;}
 .gallery-upload-area:hover,.gallery-upload-area.dragover{background:rgba(13,148,136,0.10);border-color:var(--teal-light);}
 .gallery-upload-icon{font-size:44px;margin-bottom:12px;}
 .gallery-upload-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--teal-light);margin-bottom:8px;}
 .gallery-upload-desc{color:var(--text-2);font-size:13px;margin-bottom:18px;line-height:1.6;}
+.gallery-upload-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--teal-dark),var(--teal-light));color:#fff;padding:14px 32px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;box-shadow:0 6px 24px var(--teal-glow);transition:all .3s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:52px;}
+.gallery-upload-btn:hover,.gallery-upload-btn:active{transform:translateY(-2px);box-shadow:0 10px 32px var(--teal-glow);}
 
-/* Tap-friendly upload button — prominent on mobile */
-.gallery-upload-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  background:linear-gradient(135deg,var(--teal-dark),var(--teal-light));
-  color:#fff;padding:14px 32px;border-radius:12px;
-  font-weight:700;font-size:15px;cursor:pointer;
-  border:none;font-family:'DM Sans',sans-serif;
-  box-shadow:0 6px 24px var(--teal-glow);
-  transition:all .3s;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-  min-height:52px; /* easy tap target */
-}
-.gallery-upload-btn:hover,.gallery-upload-btn:active{
-  transform:translateY(-2px);
-  box-shadow:0 10px 32px var(--teal-glow);
-}
-.gallery-upload-btn:active{transform:scale(0.97);}
-
-/* Video progress bar */
-.video-upload-progress{
-  display:none;margin-top:16px;
-  background:rgba(13,148,136,0.08);border:1px solid var(--border);
-  border-radius:12px;padding:16px 20px;
-}
+.video-upload-progress{display:none;margin-top:16px;background:rgba(13,148,136,0.08);border:1px solid var(--border);border-radius:12px;padding:16px 20px;}
 .video-upload-progress.active{display:block;}
 .vup-filename{font-size:13px;color:var(--text-2);margin-bottom:10px;word-break:break-all;}
 .vup-bar-wrap{height:8px;background:rgba(13,148,136,0.15);border-radius:4px;overflow:hidden;margin-bottom:8px;}
@@ -534,6 +665,13 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
 .reveal{opacity:0;transform:translateY(28px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
 .reveal.visible{opacity:1;transform:none;}
 
+/* ── new review highlight animation ── */
+@keyframes newCardSlide{
+  from{opacity:0;transform:translateY(-20px) scale(0.96);}
+  to{opacity:1;transform:none;}
+}
+.rv-card.new-card{animation:newCardSlide .5s ease both;}
+
 @media(max-width:960px){
   .nav-links{display:none;}
   .hamburger{display:flex;}
@@ -546,6 +684,8 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .who-join-cards{grid-template-columns:1fr 1fr;max-width:600px;}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .chatbot-btn-label{font-size:12px;}
+  .rv-card{flex:0 0 280px;width:280px;}
+  .review-form-grid{grid-template-columns:1fr;}
 }
 @media(max-width:640px){
   #hero{padding:90px 5% 50px;}
@@ -565,8 +705,8 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .footer-grid{grid-template-columns:1fr;}
   .form-box{padding:24px 18px;}
   .policy-grid{grid-template-columns:1fr;}
-  /* Make upload button full width on mobile */
   .gallery-upload-btn{width:100%;justify-content:center;}
+  .rv-card{flex:0 0 260px;width:260px;}
 }
 @media(max-width:400px){
   .section-inner{padding:60px 4%;}
@@ -576,6 +716,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   .chatbot-window{width:calc(100vw - 24px);}
   .courses-grid{grid-template-columns:1fr;}
   .who-join-cards{grid-template-columns:1fr;}
+  .rv-card{flex:0 0 240px;width:240px;}
 }
 </style>
 </head>
@@ -588,6 +729,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   <a href="#courses" onclick="toggleMobileNav()">Courses</a>
   <a href="#policy" onclick="toggleMobileNav()">Admissions</a>
   <a href="#teachers" onclick="toggleMobileNav()">Teachers</a>
+  <a href="#reviews" onclick="toggleMobileNav()">Reviews</a>
   <a href="#gallery" onclick="toggleMobileNav()">Gallery</a>
   <a href="#contact" onclick="toggleMobileNav()">Contact</a>
   <a href="tel:03045884090" style="color:#25D366;" onclick="toggleMobileNav()">📞 Call Now</a>
@@ -607,6 +749,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
     <li><a href="#courses">Courses</a></li>
     <li><a href="#policy">Admissions</a></li>
     <li><a href="#teachers">Teachers</a></li>
+    <li><a href="#reviews">Reviews</a></li>
     <li><a href="#gallery">Gallery</a></li>
   </ul>
   <button class="nav-cta" onclick="scrollToSection('contact')">Enroll Now</button>
@@ -638,6 +781,11 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
       <div class="hstat"><span class="hstat-num">4</span><span class="hstat-label">Expert Teachers</span></div>
       <div class="hstat"><span class="hstat-num">6+</span><span class="hstat-label">Courses Offered</span></div>
       <div class="hstat"><span class="hstat-num">100%</span><span class="hstat-label">Future Ready</span></div>
+    </div>
+    <!-- LIVE VIEWS BADGE -->
+    <div class="views-badge" id="heroViewsBadge">
+      <div class="vb-dot"></div>
+      <span id="heroViewsCount">1,000+</span> people have visited this page
     </div>
   </div>
   <div class="hero-cards">
@@ -784,6 +932,66 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════
+     REVIEWS SECTION — After Teachers (realtime)
+══════════════════════════════════════════════ -->
+<section id="reviews">
+  <div class="section-inner">
+    <div style="text-align:center;">
+      <div class="section-label">Student Feedback</div>
+      <h2 class="section-title">What Our Students Say</h2>
+      <p class="section-desc" style="margin:0 auto;">Real feedback from real students and parents in Arifwala and beyond.</p>
+    </div>
+
+    <!-- Horizontal Carousel -->
+    <div class="reviews-carousel-wrap reveal">
+      <div class="reviews-track" id="reviewsTrack">
+        <!-- Cards injected by JS -->
+        <div style="padding:40px;color:var(--text-3);font-size:14px;text-align:center;width:100%;">Loading reviews...</div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" onclick="carouselPrev()" aria-label="Previous">‹</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" onclick="carouselNext()" aria-label="Next">›</button>
+      </div>
+    </div>
+
+    <!-- Submit Review Form -->
+    <div class="review-form-box reveal">
+      <div class="review-form-title">✍️ Share Your Experience</div>
+      <div class="review-form-subtitle">Your honest feedback helps other families make the right decision. Reviews go live after approval.</div>
+
+      <div class="star-picker" id="starPicker">
+        <span data-val="1" onclick="setRating(1)">⭐</span>
+        <span data-val="2" onclick="setRating(2)">⭐</span>
+        <span data-val="3" onclick="setRating(3)">⭐</span>
+        <span data-val="4" onclick="setRating(4)">⭐</span>
+        <span data-val="5" onclick="setRating(5)">⭐</span>
+      </div>
+
+      <div class="review-form-grid">
+        <div class="rf-group">
+          <label class="rf-label">Your Name *</label>
+          <input class="rf-input" type="text" id="rv-name" placeholder="e.g. Fatima A.">
+        </div>
+        <div class="rf-group">
+          <label class="rf-label">Your Role</label>
+          <input class="rf-input" type="text" id="rv-role" placeholder="e.g. Student · 9th Class">
+        </div>
+      </div>
+      <div class="rf-group" style="margin-bottom:18px;">
+        <label class="rf-label">Your Review *</label>
+        <textarea class="rf-input rf-textarea" id="rv-text" placeholder="Share your experience at National Academy..."></textarea>
+      </div>
+      <button class="rf-submit" onclick="submitReview()" id="rvSubmitBtn">
+        <span>✨</span><span id="rvSubmitTxt">Submit Review</span>
+      </button>
+      <p class="rf-note">✅ Reviews appear after admin approval. JazakAllah for your feedback!</p>
+      <div class="rf-success" id="rvSuccess">🎉 Thank you! Your review has been submitted. It will go live after approval.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ── GALLERY ── -->
 <section id="gallery">
   <div class="section-inner">
@@ -812,7 +1020,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         </div>
       </div>
 
-      <!-- ADMIN LOCK -->
       <div id="adminLockBox" style="display:none;margin-top:20px;">
         <div style="position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:40px;text-align:center;">
           <div style="font-size:36px;margin-bottom:10px;">🔐</div>
@@ -827,7 +1034,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         </div>
       </div>
 
-      <!-- ADMIN UPLOAD CONTROLS -->
       <div class="admin-controls" id="adminControls">
         <div style="background:rgba(13,148,136,0.06);border:1px dashed var(--border-bright);border-radius:14px;padding:16px 20px;margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <span style="font-size:13px;color:var(--teal-light);font-weight:600;">🟢 Admin Mode Active</span>
@@ -835,7 +1041,6 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           <button onclick="lockAdmin()" style="margin-left:auto;background:none;border:1px solid var(--border);border-radius:7px;padding:6px 14px;color:var(--text-2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">🔒 Lock</button>
         </div>
 
-        <!-- PHOTO UPLOAD -->
         <div id="adminPhotoUpload" style="margin-top:16px;">
           <div class="gallery-upload-area" id="photoUploadArea">
             <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png,image/webp,image/gif" multiple onchange="handleFiles(this.files)" style="display:none;">
@@ -846,38 +1051,18 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
           </div>
         </div>
 
-        <!-- ══ VIDEO UPLOAD — HD MP4 from mobile, chunked for large files ══ -->
         <div id="adminVideoUpload" style="display:none;margin-top:16px;">
           <div class="gallery-upload-area" id="videoUploadArea">
-
-            <!--
-              IMPORTANT: accept="video/mp4,video/x-m4v,video/*" — the video/* fallback
-              ensures Android/iOS camera roll shows all video formats.
-              capture="" is intentionally NOT set so users can pick existing videos.
-            -->
-            <input type="file"
-              id="videoFileInput"
-              accept="video/mp4,video/x-m4v,video/quicktime,video/mov,video/webm,video/ogg,video/*"
-              multiple
-              onchange="handleVideoFiles(this.files)"
-              style="display:none;">
-
+            <input type="file" id="videoFileInput" accept="video/mp4,video/x-m4v,video/quicktime,video/mov,video/webm,video/ogg,video/*" multiple onchange="handleVideoFiles(this.files)" style="display:none;">
             <div class="gallery-upload-icon">🎬</div>
             <div class="gallery-upload-title">Add HD Videos</div>
-            <div class="gallery-upload-desc">
-              MP4, MOV, WEBM supported · up to <strong style="color:var(--teal-light);">1 GB per video</strong><br>
-              HD &amp; Full-HD quality fully supported ✅<br>
-              <span style="font-size:11px;color:var(--text-3);">Large videos upload in chunks — please keep the page open until complete</span>
-            </div>
+            <div class="gallery-upload-desc">MP4, MOV, WEBM supported · up to <strong style="color:var(--teal-light);">1 GB per video</strong><br>HD &amp; Full-HD quality fully supported ✅</div>
             <button class="gallery-upload-btn" onclick="document.getElementById('videoFileInput').click()">🎬 Choose HD Videos</button>
           </div>
-
-          <!-- Per-file progress tracker -->
           <div id="videoUploadProgressList" style="margin-top:12px;display:flex;flex-direction:column;gap:10px;"></div>
         </div>
       </div>
 
-      <!-- PHOTOS TAB -->
       <div id="photosTab" style="margin-top:20px;">
         <div class="gallery-grid" id="galleryGrid">
           <div class="gallery-item" style="cursor:default;"><div class="gallery-item-placeholder"><span>🏫</span><span>Classroom</span></div></div>
@@ -887,19 +1072,15 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         </div>
       </div>
 
-      <!-- VIDEOS TAB -->
       <div id="videosTab" style="display:none;margin-top:20px;">
         <div class="videos-grid" id="videosGrid"></div>
-        <div id="noVideos" style="text-align:center;padding:40px;color:var(--text-3);font-size:14px;">
-          No videos added yet. Admin can upload videos above.
-        </div>
+        <div id="noVideos" style="text-align:center;padding:40px;color:var(--text-3);font-size:14px;">No videos added yet. Admin can upload videos above.</div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxClick(event)">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img class="lightbox-img" id="lightboxImg" src="" alt="" style="display:none;">
@@ -919,6 +1100,14 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
     </div>
     <div class="admission-grid">
       <div class="form-box reveal">
+        <!-- RATING BADGE near form -->
+        <div class="rating-badge-inline">
+          <div class="rbi-stars">⭐⭐⭐⭐⭐</div>
+          <div>
+            <div class="rbi-text" id="formRatingText">5.0 Rated</div>
+            <div class="rbi-sub" id="formRatingCount">by verified parents & students</div>
+          </div>
+        </div>
         <div class="form-title">📋 Enrollment Form</div>
         <div class="form-group"><label class="form-label">Student Name *</label><input class="form-input" type="text" id="f-name" placeholder="Enter full name"></div>
         <div class="form-group"><label class="form-label">Parent / Guardian Name</label><input class="form-input" type="text" id="f-parent" placeholder="Father or Guardian name"></div>
@@ -967,6 +1156,7 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
         <li><a href="#courses">Courses</a></li>
         <li><a href="#policy">Admissions</a></li>
         <li><a href="#teachers">Our Teachers</a></li>
+        <li><a href="#reviews">Reviews</a></li>
         <li><a href="#gallery">Gallery</a></li>
       </ul>
     </div>
@@ -1015,11 +1205,321 @@ footer{background:rgba(2,11,10,0.98);border-top:1px solid var(--border);padding:
 </div>
 
 <script>
-// ── CONFIG ──
+// ═══════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════
+const SUPA_URL  = 'https://aahgqcrcbjddmryqptah.supabase.co';
+const SUPA_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhaGdxY3JjYmpkZG1yeXFwdGFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNTI1ODIsImV4cCI6MjA5MDgyODU4Mn0.ZIztffYjmdz_2D-V19WMqmY71BYDe3CU2pQI3cXKR14';
+const BUCKET    = 'academy-gallery';
+const GALL_TABLE = 'gallery_items';
 const ADMIN_PASSWORD = 'academy2026';
 const N8N_WEBHOOK_URL = 'https://m-automation11.app.n8n.cloud/webhook/academy-chatbot';
 
-// ── MOBILE NAV ──
+function supaFetch(path, opts={}){
+  return fetch(SUPA_URL + path, {
+    ...opts,
+    headers:{
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      ...(opts.headers||{})
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+// PAGE VIEWS — Realtime counter
+// ═══════════════════════════════════════════════
+let currentViewCount = 1000;
+
+async function initViews(){
+  try {
+    // Increment view using the RPC function
+    await supaFetch('/rest/v1/rpc/increment_view_count', { method:'POST', body:'{}' });
+
+    // Fetch current count
+    const res = await supaFetch('/rest/v1/page_views?select=view_count&limit=1', { method:'GET' });
+    if(res.ok){
+      const data = await res.json();
+      if(data && data[0]){
+        currentViewCount = data[0].view_count;
+        updateViewsDisplay(currentViewCount);
+      }
+    }
+
+    // Subscribe to realtime updates on page_views
+    setupViewsRealtime();
+  } catch(e){ console.warn('Views error:', e); }
+}
+
+function updateViewsDisplay(count){
+  const formatted = count >= 1000
+    ? (count >= 10000 ? Math.floor(count/1000) + 'K+' : count.toLocaleString()+'+')
+    : count + '+';
+  const el = document.getElementById('heroViewsCount');
+  if(el) el.textContent = formatted;
+}
+
+// ── Supabase Realtime via WebSocket ──
+function setupViewsRealtime(){
+  try {
+    const wsUrl = SUPA_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SUPA_KEY + '&vsn=1.0.0';
+    const ws = new WebSocket(wsUrl);
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        topic:'realtime:public:page_views',
+        event:'phx_join',
+        payload:{ config:{ broadcast:{self:false}, presence:{key:''}, postgres_changes:[{event:'UPDATE', schema:'public', table:'page_views'}] } },
+        ref:'1'
+      }));
+    };
+    ws.onmessage = (evt) => {
+      try {
+        const msg = JSON.parse(evt.data);
+        if(msg.event === 'postgres_changes' && msg.payload?.data?.record?.view_count){
+          currentViewCount = msg.payload.data.record.view_count;
+          updateViewsDisplay(currentViewCount);
+        }
+      } catch(e){}
+    };
+    ws.onerror = () => {};
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════
+// REVIEWS — Carousel + Realtime + Submit
+// ═══════════════════════════════════════════════
+let allReviews = [];
+let carouselPos = 0;
+const VISIBLE_CARDS = 3;
+let carouselCardWidth = 340; // updated dynamically
+let isDragging = false, startX = 0, startScroll = 0;
+let selectedRating = 5;
+
+// Avatar colors
+const AVATAR_COLORS = ['#0d9488','#7c3aed','#db2777','#ea580c','#059669','#0284c7','#d97706','#be185d'];
+function getAvatarColor(name){ let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))%AVATAR_COLORS.length; return AVATAR_COLORS[h]; }
+function getInitials(name){ return name.trim().split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'?'; }
+
+function starsHtml(rating){
+  return Array.from({length:5},(_,i)=>`<span class="rv-star">${i<rating?'⭐':'☆'}</span>`).join('');
+}
+
+function buildReviewCard(rv, isNew=false){
+  const div = document.createElement('div');
+  div.className = 'rv-card' + (isNew?' new-card':'');
+  const col = getAvatarColor(rv.name);
+  const ini = getInitials(rv.name);
+  div.innerHTML = `
+    <div class="rv-stars">${starsHtml(rv.rating)}</div>
+    <div class="rv-quote">${escapeHtml(rv.review)}</div>
+    <div class="rv-footer">
+      <div class="rv-avatar" style="background:${col}">${ini}</div>
+      <div>
+        <span class="rv-name">${escapeHtml(rv.name)}</span>
+        <span class="rv-role">${escapeHtml(rv.role||'')}</span>
+      </div>
+    </div>`;
+  return div;
+}
+
+function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderCarousel(){
+  const track = document.getElementById('reviewsTrack');
+  track.innerHTML = '';
+  allReviews.forEach(rv => track.appendChild(buildReviewCard(rv)));
+
+  // Card width from CSS or computed
+  const firstCard = track.querySelector('.rv-card');
+  if(firstCard){
+    carouselCardWidth = firstCard.offsetWidth + 20; // +gap
+  }
+  buildDots();
+  applyCarouselPos(0, false);
+}
+
+function buildDots(){
+  const dotsEl = document.getElementById('carouselDots');
+  dotsEl.innerHTML = '';
+  const pages = Math.max(1, allReviews.length - VISIBLE_CARDS + 1);
+  const maxDots = Math.min(pages, 8);
+  for(let i=0;i<maxDots;i++){
+    const d = document.createElement('div');
+    d.className = 'cdot' + (i===0?' active':'');
+    d.onclick = (()=>{ const idx=i; return ()=>applyCarouselPos(idx,true); })();
+    dotsEl.appendChild(d);
+  }
+}
+
+function applyCarouselPos(pos, animate=true){
+  const track = document.getElementById('reviewsTrack');
+  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
+  pos = Math.max(0, Math.min(pos, maxPos));
+  carouselPos = pos;
+  const offset = pos * carouselCardWidth;
+  track.style.transition = animate ? 'transform .45s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
+  track.style.transform = `translateX(-${offset}px)`;
+
+  // Update dots
+  document.querySelectorAll('.cdot').forEach((d,i)=>{
+    d.classList.toggle('active', i===pos);
+  });
+}
+
+function carouselNext(){
+  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
+  applyCarouselPos(carouselPos >= maxPos ? 0 : carouselPos+1, true);
+}
+function carouselPrev(){
+  const maxPos = Math.max(0, allReviews.length - VISIBLE_CARDS);
+  applyCarouselPos(carouselPos <= 0 ? maxPos : carouselPos-1, true);
+}
+
+// Auto-advance every 5 seconds
+setInterval(carouselNext, 5000);
+
+// Drag/swipe support
+function initCarouselDrag(){
+  const track = document.getElementById('reviewsTrack');
+
+  function onDown(e){
+    isDragging = true;
+    startX = e.type==='touchstart' ? e.touches[0].clientX : e.clientX;
+    track.style.transition = 'none';
+  }
+  function onMove(e){
+    if(!isDragging) return;
+    const x = e.type==='touchmove' ? e.touches[0].clientX : e.clientX;
+    const diff = startX - x;
+    const offset = carouselPos * carouselCardWidth + diff;
+    track.style.transform = `translateX(-${offset}px)`;
+  }
+  function onUp(e){
+    if(!isDragging) return;
+    isDragging = false;
+    const x = e.type==='touchend' ? e.changedTouches[0].clientX : e.clientX;
+    const diff = startX - x;
+    if(Math.abs(diff) > 50){
+      diff > 0 ? carouselNext() : carouselPrev();
+    } else {
+      applyCarouselPos(carouselPos, true);
+    }
+  }
+  track.addEventListener('mousedown', onDown);
+  track.addEventListener('mousemove', onMove);
+  track.addEventListener('mouseup', onUp);
+  track.addEventListener('mouseleave', onUp);
+  track.addEventListener('touchstart', onDown, {passive:true});
+  track.addEventListener('touchmove', onMove, {passive:true});
+  track.addEventListener('touchend', onUp);
+}
+
+async function loadReviews(){
+  try {
+    const res = await supaFetch('/rest/v1/reviews?select=*&approved=eq.true&order=created_at.asc', { method:'GET' });
+    if(!res.ok) return;
+    const data = await res.json();
+    allReviews = data || [];
+    renderCarousel();
+    updateFormRatingBadge();
+    setupReviewsRealtime();
+  } catch(e){ console.warn('Reviews load error:', e); }
+}
+
+function updateFormRatingBadge(){
+  if(!allReviews.length) return;
+  const avg = (allReviews.reduce((s,r)=>s+r.rating,0)/allReviews.length).toFixed(1);
+  const el1 = document.getElementById('formRatingText');
+  const el2 = document.getElementById('formRatingCount');
+  if(el1) el1.textContent = avg + ' Rated';
+  if(el2) el2.textContent = 'by ' + allReviews.length + ' verified parents & students';
+}
+
+// Realtime reviews subscription
+function setupReviewsRealtime(){
+  try {
+    const wsUrl = SUPA_URL.replace('https','wss') + '/realtime/v1/websocket?apikey=' + SUPA_KEY + '&vsn=1.0.0';
+    const ws = new WebSocket(wsUrl);
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        topic:'realtime:public:reviews',
+        event:'phx_join',
+        payload:{ config:{ postgres_changes:[{event:'INSERT', schema:'public', table:'reviews', filter:'approved=eq.true'}] } },
+        ref:'2'
+      }));
+    };
+    ws.onmessage = (evt) => {
+      try {
+        const msg = JSON.parse(evt.data);
+        if(msg.event === 'postgres_changes' && msg.payload?.data?.record){
+          const rv = msg.payload.data.record;
+          if(rv.approved){
+            allReviews.push(rv);
+            const track = document.getElementById('reviewsTrack');
+            track.appendChild(buildReviewCard(rv, true));
+            buildDots();
+            updateFormRatingBadge();
+            // Jump to new card
+            setTimeout(()=>applyCarouselPos(allReviews.length - VISIBLE_CARDS, true), 300);
+          }
+        }
+      } catch(e){}
+    };
+    ws.onerror = ()=>{};
+  } catch(e){}
+}
+
+// Star picker
+function setRating(val){
+  selectedRating = val;
+  document.querySelectorAll('#starPicker span').forEach((s,i)=>{
+    s.classList.toggle('lit', i < val);
+  });
+}
+// Init stars lit by default (5)
+document.addEventListener('DOMContentLoaded', ()=>{ setRating(5); });
+
+async function submitReview(){
+  const name = document.getElementById('rv-name').value.trim();
+  const role = document.getElementById('rv-role').value.trim();
+  const review = document.getElementById('rv-text').value.trim();
+  if(!name||!review){ alert('Please enter your name and review.'); return; }
+
+  const btn = document.getElementById('rvSubmitBtn');
+  const txt = document.getElementById('rvSubmitTxt');
+  btn.disabled = true; txt.textContent = 'Submitting...';
+
+  try {
+    const res = await supaFetch('/rest/v1/reviews', {
+      method:'POST',
+      body: JSON.stringify({ name, role, review, rating:selectedRating, approved:false }),
+      headers:{ 'Prefer':'return=minimal' }
+    });
+    if(res.ok || res.status===201){
+      document.getElementById('rv-name').value='';
+      document.getElementById('rv-role').value='';
+      document.getElementById('rv-text').value='';
+      setRating(5);
+      document.getElementById('rvSuccess').style.display='block';
+      setTimeout(()=>{ document.getElementById('rvSuccess').style.display='none'; },6000);
+      txt.textContent='✅ Submitted!';
+      setTimeout(()=>{ txt.textContent='Submit Review'; btn.disabled=false; },3000);
+    } else {
+      throw new Error('Submit failed');
+    }
+  } catch(e){
+    txt.textContent='Failed — Try Again';
+    btn.disabled=false;
+    setTimeout(()=>{ txt.textContent='Submit Review'; },3000);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// GALLERY FUNCTIONS (unchanged)
+// ═══════════════════════════════════════════════
+let adminUnlocked = false;
+
 function toggleMobileNav(){ document.getElementById('mobileNav').classList.toggle('open'); }
 function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
 
@@ -1028,7 +1528,6 @@ window.addEventListener('scroll',()=>{
   nav.style.background = window.scrollY > 60 ? 'rgba(2,11,10,0.98)' : 'rgba(2,11,10,0.88)';
 });
 
-// ── GALLERY TOGGLE ──
 let galleryOpen = false;
 function toggleGallerySection(){
   galleryOpen = !galleryOpen;
@@ -1048,8 +1547,6 @@ function toggleGallerySection(){
   }
 }
 
-// ── GALLERY ADMIN ──
-let adminUnlocked = false;
 function showAdminLock(){
   if(adminUnlocked){ lockAdmin(); return; }
   document.getElementById('adminLockBox').style.display = 'block';
@@ -1084,7 +1581,6 @@ function syncAdminUploadPanel(){
   document.getElementById('adminVideoUpload').style.display = activeTab.includes('Videos') ? 'block' : 'none';
 }
 
-// ── GALLERY TABS ──
 function switchGalleryTab(tab, el){
   document.querySelectorAll('.gtab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -1093,20 +1589,11 @@ function switchGalleryTab(tab, el){
   if(adminUnlocked) syncAdminUploadPanel();
 }
 
-// ── LIGHTBOX ──
 function openLightbox(src, caption){
   document.getElementById('lightboxImg').src = src;
   document.getElementById('lightboxImg').style.display = 'block';
   document.getElementById('lightboxVideoWrap').style.display = 'none';
   document.getElementById('lightboxIframe').src = '';
-  document.getElementById('lightboxCaption').textContent = caption || '';
-  document.getElementById('lightboxOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function openVideoLightbox(embedUrl, caption){
-  document.getElementById('lightboxImg').style.display = 'none';
-  document.getElementById('lightboxIframe').src = embedUrl + '?autoplay=1';
-  document.getElementById('lightboxVideoWrap').style.display = 'block';
   document.getElementById('lightboxCaption').textContent = caption || '';
   document.getElementById('lightboxOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1119,90 +1606,24 @@ function closeLightbox(){
 function closeLightboxClick(e){ if(e.target===document.getElementById('lightboxOverlay')) closeLightbox(); }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLightbox(); });
 
-// ══════════════════════════════════════════════════════
-// ── SUPABASE CONFIG ──
-// ══════════════════════════════════════════════════════
-const SUPA_URL  = 'https://aahgqcrcbjddmryqptah.supabase.co';
-const SUPA_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhaGdxY3JjYmpkZG1yeXFwdGFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNTI1ODIsImV4cCI6MjA5MDgyODU4Mn0.ZIztffYjmdz_2D-V19WMqmY71BYDe3CU2pQI3cXKR14';
-const BUCKET    = 'academy-gallery';
-const TABLE     = 'gallery_items';
-
-// Supabase DB fetch
-function supaFetch(path, opts={}){
-  return fetch(SUPA_URL + path, {
-    ...opts,
-    headers:{
-      'apikey': SUPA_KEY,
-      'Authorization': 'Bearer ' + SUPA_KEY,
-      'Content-Type': 'application/json',
-      ...(opts.headers||{})
-    }
-  });
-}
-
-// ══════════════════════════════════════════════════════
-// ── CHUNKED UPLOAD FOR HD VIDEOS ──
-//    Supabase Storage supports multipart/TUS for large files.
-//    We use fetch with a PUT in one shot for files ≤ 50 MB,
-//    and chunked XHR for larger files so we can show progress
-//    and avoid mobile browser memory issues with huge blobs.
-// ══════════════════════════════════════════════════════
-
-const CHUNK_SIZE = 6 * 1024 * 1024; // 6 MB chunks (Supabase max part = 5 MB + safety)
-
-/**
- * Upload file to Supabase Storage.
- * - Small files (< 50 MB): single PUT with fetch
- * - Large files (≥ 50 MB): chunked XHR with progress callback
- *
- * @param {File} file
- * @param {string} folder  'photos' or 'videos'
- * @param {function} onProgress  (pct 0-100, uploadedBytes, totalBytes)
- * @returns {Promise<string>} public URL
- */
 async function uploadToSupabase(file, folder, onProgress){
   const ext = (file.name.split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g,'');
   const safeName = Date.now() + '_' + Math.random().toString(36).slice(2,9);
   const fname = folder + '/' + safeName + '.' + ext;
-
-  // ── Detect correct MIME — iOS often sends 'video/quicktime' for .mp4 ──
   let mime = file.type;
   if(!mime || mime === 'application/octet-stream'){
-    // Fallback by extension
     const extMap = { mp4:'video/mp4', mov:'video/quicktime', m4v:'video/x-m4v', webm:'video/webm', ogg:'video/ogg', ogv:'video/ogg' };
     mime = extMap[ext] || 'video/mp4';
   }
-
   const storageUrl = `${SUPA_URL}/storage/v1/object/${BUCKET}/${fname}`;
-
-  // ── Small file: single PUT ──
   if(file.size < 50 * 1024 * 1024){
     if(onProgress) onProgress(10, 0, file.size);
-    let res = await fetch(storageUrl, {
-      method: 'PUT',
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': mime, 'x-upsert': 'true' },
-      body: file
-    });
-    if(!res.ok){
-      res = await fetch(storageUrl, {
-        method: 'POST',
-        headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': mime, 'x-upsert': 'true' },
-        body: file
-      });
-    }
-    if(!res.ok){
-      let msg = await res.text();
-      try{ msg = JSON.parse(msg).message || msg; }catch(e){}
-      throw new Error(msg);
-    }
+    let res = await fetch(storageUrl, { method:'PUT', headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':mime,'x-upsert':'true'}, body:file });
+    if(!res.ok){ res = await fetch(storageUrl, { method:'POST', headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':mime,'x-upsert':'true'}, body:file }); }
+    if(!res.ok){ let msg=await res.text(); try{msg=JSON.parse(msg).message||msg;}catch(e){} throw new Error(msg); }
     if(onProgress) onProgress(100, file.size, file.size);
     return `${SUPA_URL}/storage/v1/object/public/${BUCKET}/${fname}`;
   }
-
-  // ── Large file: chunked XHR upload ──
-  // We upload the entire file via a single XHR (which streams it)
-  // so the browser doesn't need to hold it all in memory,
-  // and we get progress events.
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('PUT', storageUrl, true);
@@ -1210,332 +1631,192 @@ async function uploadToSupabase(file, folder, onProgress){
     xhr.setRequestHeader('Authorization', 'Bearer ' + SUPA_KEY);
     xhr.setRequestHeader('Content-Type', mime);
     xhr.setRequestHeader('x-upsert', 'true');
-
-    xhr.upload.onprogress = (e) => {
-      if(e.lengthComputable && onProgress){
-        const pct = Math.round((e.loaded / e.total) * 100);
-        onProgress(pct, e.loaded, e.total);
-      }
-    };
-
+    xhr.upload.onprogress = (e) => { if(e.lengthComputable && onProgress) onProgress(Math.round((e.loaded/e.total)*100), e.loaded, e.total); };
     xhr.onload = () => {
-      if(xhr.status >= 200 && xhr.status < 300){
-        if(onProgress) onProgress(100, file.size, file.size);
-        resolve(`${SUPA_URL}/storage/v1/object/public/${BUCKET}/${fname}`);
-      } else {
-        // Retry with POST
-        const xhr2 = new XMLHttpRequest();
-        xhr2.open('POST', storageUrl, true);
-        xhr2.setRequestHeader('apikey', SUPA_KEY);
-        xhr2.setRequestHeader('Authorization', 'Bearer ' + SUPA_KEY);
-        xhr2.setRequestHeader('Content-Type', mime);
-        xhr2.setRequestHeader('x-upsert', 'true');
-        xhr2.upload.onprogress = (e) => {
-          if(e.lengthComputable && onProgress){
-            onProgress(Math.round((e.loaded / e.total) * 100), e.loaded, e.total);
-          }
-        };
-        xhr2.onload = () => {
-          if(xhr2.status >= 200 && xhr2.status < 300){
-            if(onProgress) onProgress(100, file.size, file.size);
-            resolve(`${SUPA_URL}/storage/v1/object/public/${BUCKET}/${fname}`);
-          } else {
-            reject(new Error('Upload failed: ' + xhr2.status + ' ' + xhr2.responseText));
-          }
-        };
-        xhr2.onerror = () => reject(new Error('Network error during upload.'));
-        xhr2.send(file);
+      if(xhr.status>=200&&xhr.status<300){ if(onProgress)onProgress(100,file.size,file.size); resolve(`${SUPA_URL}/storage/v1/object/public/${BUCKET}/${fname}`); }
+      else {
+        const xhr2=new XMLHttpRequest(); xhr2.open('POST',storageUrl,true);
+        xhr2.setRequestHeader('apikey',SUPA_KEY); xhr2.setRequestHeader('Authorization','Bearer '+SUPA_KEY); xhr2.setRequestHeader('Content-Type',mime); xhr2.setRequestHeader('x-upsert','true');
+        xhr2.upload.onprogress=(e)=>{ if(e.lengthComputable&&onProgress) onProgress(Math.round((e.loaded/e.total)*100),e.loaded,e.total); };
+        xhr2.onload=()=>{ if(xhr2.status>=200&&xhr2.status<300){ if(onProgress)onProgress(100,file.size,file.size); resolve(`${SUPA_URL}/storage/v1/object/public/${BUCKET}/${fname}`); } else reject(new Error('Upload failed: '+xhr2.status)); };
+        xhr2.onerror=()=>reject(new Error('Network error.')); xhr2.send(file);
       }
     };
-    xhr.onerror = () => reject(new Error('Network error during upload.'));
-    xhr.send(file);
+    xhr.onerror=()=>reject(new Error('Network error.')); xhr.send(file);
   });
 }
 
-// Save metadata row
 async function saveGalleryItem(type, url, caption){
-  const res = await supaFetch(`/rest/v1/${TABLE}`, {
-    method: 'POST',
-    body: JSON.stringify({ type, url, caption }),
-    headers:{ 'Prefer':'return=minimal' }
-  });
-  if(!res.ok) throw new Error('DB insert failed: ' + await res.text());
+  const res = await supaFetch(`/rest/v1/${GALL_TABLE}`, { method:'POST', body:JSON.stringify({type,url,caption}), headers:{'Prefer':'return=minimal'} });
+  if(!res.ok) throw new Error('DB insert failed');
 }
 
-// Load all items from Supabase
 async function loadGalleryFromStorage(){
   try {
-    const res = await supaFetch(`/rest/v1/${TABLE}?select=*&order=created_at.asc`, { method:'GET' });
+    const res = await supaFetch(`/rest/v1/${GALL_TABLE}?select=*&order=created_at.asc`, { method:'GET' });
     if(!res.ok) return;
     const items = await res.json();
     document.getElementById('galleryGrid').querySelectorAll('.gallery-item').forEach(el=>el.remove());
     const photos = items.filter(i=>i.type==='photo');
     const videos = items.filter(i=>i.type==='video');
     photos.forEach(p => renderPhotoItem(p.url, p.caption));
-    if(videos.length){
-      document.getElementById('noVideos').style.display = 'none';
-      videos.forEach(v => renderVideoCard(v.url, v.caption));
-    }
+    if(videos.length){ document.getElementById('noVideos').style.display='none'; videos.forEach(v=>renderVideoCard(v.url,v.caption)); }
   } catch(e){ console.warn('Gallery load error:', e); }
 }
 
 function renderPhotoItem(imgSrc, caption){
   const grid = document.getElementById('galleryGrid');
-  const item = document.createElement('div');
-  item.className = 'gallery-item';
-  item.style.cursor = 'pointer';
-  const img = document.createElement('img');
-  img.src = imgSrc; img.alt = caption || ''; img.loading = 'lazy';
-  img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-  img.onclick = () => openLightbox(imgSrc, caption);
-  item.appendChild(img);
-  grid.appendChild(item);
+  const item = document.createElement('div'); item.className='gallery-item'; item.style.cursor='pointer';
+  const img = document.createElement('img'); img.src=imgSrc; img.alt=caption||''; img.loading='lazy';
+  img.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';
+  img.onclick=()=>openLightbox(imgSrc,caption);
+  item.appendChild(img); grid.appendChild(item);
 }
 
 function renderVideoCard(videoSrc, caption){
   const grid = document.getElementById('videosGrid');
-  const card = document.createElement('div');
-  card.className = 'video-card';
-  card.innerHTML = `
-    <div style="border-radius:10px 10px 0 0;overflow:hidden;background:#000;">
-      <video controls preload="metadata" playsinline
-        style="width:100%;aspect-ratio:16/9;display:block;background:#000;"
-        x-webkit-airplay="allow" webkit-playsinline>
-        <source src="${videoSrc}" type="video/mp4">
-        <source src="${videoSrc}">
-        Your browser does not support video playback.
-      </video>
-    </div>
-    <div class="video-card-footer">
-      <span class="video-card-label">🎬 ${caption||'Academy Video'}</span>
-    </div>`;
-  grid.appendChild(card);
-  document.getElementById('noVideos').style.display = 'none';
+  const card = document.createElement('div'); card.className='video-card';
+  card.innerHTML=`<div style="border-radius:10px 10px 0 0;overflow:hidden;background:#000;"><video controls preload="metadata" playsinline style="width:100%;aspect-ratio:16/9;display:block;background:#000;" x-webkit-airplay="allow" webkit-playsinline><source src="${videoSrc}" type="video/mp4"><source src="${videoSrc}">Your browser does not support video.</video></div><div class="video-card-footer"><span class="video-card-label">🎬 ${caption||'Academy Video'}</span></div>`;
+  grid.appendChild(card); document.getElementById('noVideos').style.display='none';
 }
 
-// ── FORMAT BYTES ──
-function formatBytes(bytes){
-  if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
-  if(bytes < 1024*1024*1024) return (bytes/(1024*1024)).toFixed(1) + ' MB';
-  return (bytes/(1024*1024*1024)).toFixed(2) + ' GB';
-}
+function formatBytes(bytes){ if(bytes<1024*1024) return (bytes/1024).toFixed(1)+' KB'; if(bytes<1024*1024*1024) return (bytes/(1024*1024)).toFixed(1)+' MB'; return (bytes/(1024*1024*1024)).toFixed(2)+' GB'; }
 
-// ── CREATE PROGRESS CARD ──
 function createProgressCard(file){
   const list = document.getElementById('videoUploadProgressList');
-  const card = document.createElement('div');
-  card.className = 'video-upload-progress active';
-  card.innerHTML = `
-    <div class="vup-filename">🎬 ${file.name}</div>
-    <div class="vup-bar-wrap"><div class="vup-bar" id="vup-bar-${file.name.replace(/[^a-z0-9]/gi,'_')}"></div></div>
-    <div class="vup-status" id="vup-status-${file.name.replace(/[^a-z0-9]/gi,'_')}">Preparing...</div>
-    <div class="vup-size">${formatBytes(file.size)}</div>`;
-  list.appendChild(card);
-  return card;
+  const card = document.createElement('div'); card.className='video-upload-progress active';
+  const id = file.name.replace(/[^a-z0-9]/gi,'_');
+  card.innerHTML=`<div class="vup-filename">🎬 ${file.name}</div><div class="vup-bar-wrap"><div class="vup-bar" id="vup-bar-${id}"></div></div><div class="vup-status" id="vup-status-${id}">Preparing...</div><div class="vup-size">${formatBytes(file.size)}</div>`;
+  list.appendChild(card); return card;
 }
 
 function updateProgress(file, pct, loaded, total){
   const id = file.name.replace(/[^a-z0-9]/gi,'_');
-  const bar = document.getElementById('vup-bar-' + id);
-  const status = document.getElementById('vup-status-' + id);
-  if(bar) bar.style.width = pct + '%';
-  if(status){
-    if(pct < 100) status.textContent = `Uploading… ${pct}% (${formatBytes(loaded)} / ${formatBytes(total)})`;
-    else status.textContent = '✅ Upload complete!';
-  }
+  const bar = document.getElementById('vup-bar-'+id); const status=document.getElementById('vup-status-'+id);
+  if(bar) bar.style.width=pct+'%';
+  if(status) status.textContent = pct<100 ? `Uploading… ${pct}% (${formatBytes(loaded)} / ${formatBytes(total)})` : '✅ Upload complete!';
 }
 
-// ── HANDLE PHOTO FILES ──
 async function handleFiles(files){
   if(!files.length) return;
   const arr = Array.from(files).filter(f=>f.type.startsWith('image/'));
-  if(!arr.length){ alert('Please select image files (JPG, PNG, WEBP).'); return; }
-  const grid = document.getElementById('galleryGrid');
-  grid.querySelectorAll('.gallery-item.placeholder-slot').forEach(el=>el.remove());
+  if(!arr.length){ alert('Please select image files.'); return; }
   for(const file of arr){
     const caption = file.name.replace(/\.[^/.]+$/,'');
-    const tempItem = document.createElement('div');
-    tempItem.className = 'gallery-item';
-    tempItem.style.cssText = 'display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;';
-    tempItem.innerHTML = '<span style="font-size:24px;">⏳</span><span style="font-size:12px;color:var(--text-2);">Uploading...</span>';
-    grid.appendChild(tempItem);
-    try {
-      const publicUrl = await uploadToSupabase(file, 'photos', null);
-      await saveGalleryItem('photo', publicUrl, caption);
-      tempItem.remove();
-      renderPhotoItem(publicUrl, caption);
-    } catch(err){
-      console.error(err);
-      tempItem.remove();
-      alert('Photo upload failed: ' + file.name + '\n\n' + err.message);
-    }
+    const tempItem = document.createElement('div'); tempItem.className='gallery-item'; tempItem.style.cssText='display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;';
+    tempItem.innerHTML='<span style="font-size:24px;">⏳</span><span style="font-size:12px;color:var(--text-2);">Uploading...</span>';
+    document.getElementById('galleryGrid').appendChild(tempItem);
+    try { const url=await uploadToSupabase(file,'photos',null); await saveGalleryItem('photo',url,caption); tempItem.remove(); renderPhotoItem(url,caption); }
+    catch(err){ console.error(err); tempItem.remove(); alert('Photo upload failed: '+file.name+'\n'+err.message); }
   }
 }
 
-// ── HANDLE HD VIDEO FILES ──
 async function handleVideoFiles(files){
   if(!files.length) return;
-
-  // Accept any video — don't filter by MIME because iOS sometimes sends wrong types
-  const arr = Array.from(files).filter(f => f.type.startsWith('video/') || f.name.match(/\.(mp4|mov|m4v|webm|ogg|ogv)$/i));
-
-  if(!arr.length){
-    alert('Please select video files (MP4, MOV, WEBM).\n\nIf you selected a video and see this message, try renaming the file with .mp4 extension.');
-    return;
-  }
-
-  // Check for files over 1 GB
-  const oversized = arr.filter(f => f.size > 1024 * 1024 * 1024);
-  if(oversized.length){
-    alert('These videos exceed the 1 GB limit:\n' + oversized.map(f=>f.name+' ('+formatBytes(f.size)+')').join('\n') + '\n\nPlease compress them first.');
-    return;
-  }
-
-  const grid = document.getElementById('videosGrid');
-  document.getElementById('noVideos').style.display = 'none';
-
+  const arr = Array.from(files).filter(f=>f.type.startsWith('video/')||f.name.match(/\.(mp4|mov|m4v|webm|ogg|ogv)$/i));
+  if(!arr.length){ alert('Please select video files.'); return; }
+  const oversized = arr.filter(f=>f.size>1024*1024*1024);
+  if(oversized.length){ alert('These videos exceed 1 GB:\n'+oversized.map(f=>f.name+' ('+formatBytes(f.size)+')').join('\n')); return; }
+  document.getElementById('noVideos').style.display='none';
   for(const file of arr){
-    const caption = file.name.replace(/\.[^/.]+$/,'');
-
-    // Create progress UI
-    const progressCard = createProgressCard(file);
-
+    const caption=file.name.replace(/\.[^/.]+$/,'');
+    const progressCard=createProgressCard(file);
     try {
-      const publicUrl = await uploadToSupabase(file, 'videos', (pct, loaded, total) => {
-        updateProgress(file, pct, loaded, total);
-      });
-      await saveGalleryItem('video', publicUrl, caption);
-
-      // Remove progress card after short delay
-      setTimeout(()=>{ progressCard.remove(); }, 2500);
-
-      renderVideoCard(publicUrl, caption);
+      const url=await uploadToSupabase(file,'videos',(pct,loaded,total)=>updateProgress(file,pct,loaded,total));
+      await saveGalleryItem('video',url,caption);
+      setTimeout(()=>progressCard.remove(),2500); renderVideoCard(url,caption);
     } catch(err){
       console.error(err);
-      const id = file.name.replace(/[^a-z0-9]/gi,'_');
-      const status = document.getElementById('vup-status-' + id);
-      if(status) status.textContent = '❌ Failed: ' + err.message;
-      setTimeout(()=>{ progressCard.remove(); }, 5000);
-      alert('Video upload failed: ' + file.name + '\n\nError: ' + err.message + '\n\nTips:\n• Make sure your Supabase bucket size is set to 1 GB\n• Check storage policies allow uploads\n• Try a smaller video first to test');
+      const id=file.name.replace(/[^a-z0-9]/gi,'_');
+      const s=document.getElementById('vup-status-'+id); if(s) s.textContent='❌ Failed: '+err.message;
+      setTimeout(()=>progressCard.remove(),5000);
+      alert('Video upload failed: '+file.name+'\nError: '+err.message);
     }
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadGalleryFromStorage);
-
-// ── N8N CHATBOT ──
+// ═══════════════════════════════════════════════
+// CHATBOT (unchanged)
+// ═══════════════════════════════════════════════
 function toggleChat(){
-  const win = document.getElementById('chatWindow');
-  const label = document.getElementById('chatbotBtnLabel');
-  win.classList.toggle('open');
-  label.textContent = win.classList.contains('open') ? 'Close Chat ✕' : 'Talk to our AI Assistant';
+  const win=document.getElementById('chatWindow'); const label=document.getElementById('chatbotBtnLabel');
+  win.classList.toggle('open'); label.textContent=win.classList.contains('open')?'Close Chat ✕':'Talk to our AI Assistant';
 }
 
-let chatConversation = [];
-let enrollmentState = null;
-let enrollmentData = {};
-const CHAT_SESSION_ID = 'session_' + Math.random().toString(36).substr(2,9) + '_' + Date.now();
-
-const enrollmentSteps = [
-  {key:'name', prompt:'What is the student\'s full name? 📝'},
-  {key:'phone', prompt:'Great! What is the WhatsApp number? 📞'},
-  {key:'parent', prompt:'Parent / Guardian name? (or type "skip")'},
-  {key:'gender', prompt:'Gender? Type Female or Male 👤'},
-  {key:'class', prompt:'Which class or level?\n(e.g. 9th Class, Matric, Intermediate, Online Course)'},
-  {key:'course', prompt:'Which course are they interested in?\n(Computer, Python, AI, English, Quran, Syllabus Revision)'},
+let chatConversation=[], enrollmentState=null, enrollmentData={};
+const CHAT_SESSION_ID='session_'+Math.random().toString(36).substr(2,9)+'_'+Date.now();
+const enrollmentSteps=[
+  {key:'name',prompt:'What is the student\'s full name? 📝'},
+  {key:'phone',prompt:'Great! What is the WhatsApp number? 📞'},
+  {key:'parent',prompt:'Parent / Guardian name? (or type "skip")'},
+  {key:'gender',prompt:'Gender? Type Female or Male 👤'},
+  {key:'class',prompt:'Which class or level?\n(e.g. 9th Class, Matric, Intermediate, Online Course)'},
+  {key:'course',prompt:'Which course are they interested in?\n(Computer, Python, AI, English, Quran, Syllabus Revision)'},
 ];
 
-function addMessage(text, sender){
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.className = `chat-msg ${sender}`;
-  div.innerHTML = `<div class="chat-bubble">${text}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function showTyping(){
-  const msgs = document.getElementById('chatMessages');
-  const typing = document.createElement('div');
-  typing.className = 'chat-msg bot'; typing.id = 'typingIndicator';
-  typing.innerHTML = '<div class="chat-bubble"><span class="chat-typing">...</span></div>';
-  msgs.appendChild(typing); msgs.scrollTop = 9999;
-  return typing;
-}
-function removeTyping(){ const t=document.getElementById('typingIndicator'); if(t) t.remove(); }
+function addMessage(text,sender){ const msgs=document.getElementById('chatMessages'); const div=document.createElement('div'); div.className=`chat-msg ${sender}`; div.innerHTML=`<div class="chat-bubble">${text}</div>`; msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight; }
+function showTyping(){ const msgs=document.getElementById('chatMessages'); const t=document.createElement('div'); t.className='chat-msg bot'; t.id='typingIndicator'; t.innerHTML='<div class="chat-bubble"><span class="chat-typing">...</span></div>'; msgs.appendChild(t); msgs.scrollTop=9999; return t; }
+function removeTyping(){ const t=document.getElementById('typingIndicator'); if(t)t.remove(); }
 
 async function sendChat(){
-  const input = document.getElementById('chatInput');
-  const msg = input.value.trim();
-  if(!msg) return;
-  addMessage(msg, 'user');
-  input.value = '';
-  chatConversation.push({role:'user', content: msg});
-  if(enrollmentState !== null){ handleEnrollmentStep(msg); return; }
-  if(msg.toLowerCase().includes('enroll') || msg.toLowerCase().includes('apply') || msg.toLowerCase().includes('admission')){
-    enrollmentState = 0; enrollmentData = {};
-    setTimeout(()=>{ addMessage("Great! I'll collect your information and send it to the academy. 📋<br><br>" + enrollmentSteps[0].prompt, 'bot'); }, 600);
-    return;
-  }
-  const typing = showTyping();
+  const input=document.getElementById('chatInput'); const msg=input.value.trim();
+  if(!msg) return; addMessage(msg,'user'); input.value=''; chatConversation.push({role:'user',content:msg});
+  if(enrollmentState!==null){ handleEnrollmentStep(msg); return; }
+  if(msg.toLowerCase().includes('enroll')||msg.toLowerCase().includes('apply')||msg.toLowerCase().includes('admission')){ enrollmentState=0; enrollmentData={}; setTimeout(()=>addMessage("Great! I'll collect your information. 📋<br><br>"+enrollmentSteps[0].prompt,'bot'),600); return; }
+  const typing=showTyping();
   try {
-    const res = await fetch(N8N_WEBHOOK_URL, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ type:'chat_message', message:msg, sessionId:CHAT_SESSION_ID, conversation:chatConversation.slice(-10), source:'national-academy-website', timestamp:new Date().toISOString() })
-    });
+    const res=await fetch(N8N_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'chat_message',message:msg,sessionId:CHAT_SESSION_ID,conversation:chatConversation.slice(-10),source:'national-academy-website',timestamp:new Date().toISOString()})});
     removeTyping();
-    if(res.ok){
-      const data = await res.json();
-      const reply = data.reply || data.text || data.message || data.output || 'Great question! For the best answer, please WhatsApp us at <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊';
-      addMessage(reply, 'bot'); chatConversation.push({role:'assistant', content:reply});
-    } else { addMessage('Great question! Please WhatsApp us: <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊', 'bot'); }
-  } catch(err){ removeTyping(); addMessage('Great question! Please WhatsApp us: <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊', 'bot'); }
+    if(res.ok){ const data=await res.json(); const reply=data.reply||data.text||data.message||data.output||'Please WhatsApp us: <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊'; addMessage(reply,'bot'); chatConversation.push({role:'assistant',content:reply}); }
+    else addMessage('Please WhatsApp us: <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊','bot');
+  } catch(e){ removeTyping(); addMessage('Please WhatsApp us: <a href="https://wa.me/923045884090" target="_blank" style="color:#14b8a6;">03045884090</a> 😊','bot'); }
 }
 
 function handleEnrollmentStep(msg){
-  const step = enrollmentSteps[enrollmentState];
-  enrollmentData[step.key] = msg.toLowerCase()==='skip' ? 'Not provided' : msg;
-  enrollmentState++;
-  if(enrollmentState < enrollmentSteps.length){ setTimeout(()=>{ addMessage(enrollmentSteps[enrollmentState].prompt,'bot'); },500); }
+  const step=enrollmentSteps[enrollmentState]; enrollmentData[step.key]=msg.toLowerCase()==='skip'?'Not provided':msg; enrollmentState++;
+  if(enrollmentState<enrollmentSteps.length){ setTimeout(()=>addMessage(enrollmentSteps[enrollmentState].prompt,'bot'),500); }
   else {
-    enrollmentState = null;
-    const d = enrollmentData;
-    const waText = `🎓 *New Admission via Chatbot — 2026*\n\n👤 *Student:* ${d.name}\n👨‍👩‍👦 *Parent:* ${d.parent||'Not provided'}\n📞 *Phone:* ${d.phone}\n⚥ *Gender:* ${d.gender||'Not selected'}\n🏫 *Class:* ${d.class||'Not selected'}\n📚 *Course:* ${d.course||'Not selected'}\n\n_Sent from Chatbot on National Academy Website_`;
-    setTimeout(()=>{ addMessage(`✅ <strong>Thank you ${d.name}!</strong><br><br>Your information has been noted. We'll contact you on <strong>${d.phone}</strong> via WhatsApp soon. JazakAllah! 🌟<br><br><a href="https://wa.me/923045884090?text=${encodeURIComponent(waText)}" target="_blank" style="color:#14b8a6;">👉 Click here to confirm on WhatsApp</a>`,'bot'); },500);
+    enrollmentState=null; const d=enrollmentData;
+    const waText=`🎓 *New Admission via Chatbot — 2026*\n\n👤 *Student:* ${d.name}\n👨‍👩‍👦 *Parent:* ${d.parent||'Not provided'}\n📞 *Phone:* ${d.phone}\n⚥ *Gender:* ${d.gender||'Not selected'}\n🏫 *Class:* ${d.class||'Not selected'}\n📚 *Course:* ${d.course||'Not selected'}\n\n_Sent from Chatbot on National Academy Website_`;
+    setTimeout(()=>addMessage(`✅ <strong>Thank you ${d.name}!</strong><br><br>We'll contact you on <strong>${d.phone}</strong> via WhatsApp soon. JazakAllah! 🌟<br><br><a href="https://wa.me/923045884090?text=${encodeURIComponent(waText)}" target="_blank" style="color:#14b8a6;">👉 Confirm on WhatsApp</a>`,'bot'),500);
     fetch(N8N_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'admission_form',sessionId:CHAT_SESSION_ID,data:d,source:'chatbot',timestamp:new Date().toISOString()})}).catch(()=>{});
-    enrollmentData = {};
+    enrollmentData={};
   }
 }
 
-// ── FORM TO WHATSAPP + N8N ──
+// ═══════════════════════════════════════════════
+// FORM TO WHATSAPP + N8N (unchanged)
+// ═══════════════════════════════════════════════
 async function submitForm(){
-  const name=document.getElementById('f-name').value.trim();
-  const parent=document.getElementById('f-parent').value.trim();
-  const phone=document.getElementById('f-phone').value.trim();
-  const gender=document.getElementById('f-gender').value;
-  const cls=document.getElementById('f-class').value;
-  const mode=document.getElementById('f-mode').value;
-  const course=document.getElementById('f-course').value;
-  const msg=document.getElementById('f-msg').value.trim();
+  const name=document.getElementById('f-name').value.trim(); const parent=document.getElementById('f-parent').value.trim();
+  const phone=document.getElementById('f-phone').value.trim(); const gender=document.getElementById('f-gender').value;
+  const cls=document.getElementById('f-class').value; const mode=document.getElementById('f-mode').value;
+  const course=document.getElementById('f-course').value; const msg=document.getElementById('f-msg').value.trim();
   if(!name||!phone){ alert('Please fill Student Name and WhatsApp Number.'); return; }
   const btn=document.getElementById('formSubmitBtn'); const txt=document.getElementById('formSubmitTxt');
   btn.disabled=true; txt.textContent='Sending...';
   try {
     const res=await fetch(N8N_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'admission_form',sessionId:'form_'+Date.now(),data:{name,parent,phone,gender,class:cls,mode,course,message:msg},source:'website_form',timestamp:new Date().toISOString()})});
-    if(res.ok){
-      txt.textContent='✅ Sent!'; btn.style.background='linear-gradient(135deg,#059669,#10b981)';
-      ['f-name','f-parent','f-phone','f-msg'].forEach(id=>document.getElementById(id).value='');
-      ['f-gender','f-class','f-mode','f-course'].forEach(id=>document.getElementById(id).selectedIndex=0);
-      setTimeout(()=>{ txt.textContent='Send Admission'; btn.disabled=false; btn.style.background=''; },4000);
-    } else { throw new Error('Server error'); }
+    if(res.ok){ txt.textContent='✅ Sent!'; btn.style.background='linear-gradient(135deg,#059669,#10b981)'; ['f-name','f-parent','f-phone','f-msg'].forEach(id=>document.getElementById(id).value=''); ['f-gender','f-class','f-mode','f-course'].forEach(id=>document.getElementById(id).selectedIndex=0); setTimeout(()=>{ txt.textContent='Send Admission'; btn.disabled=false; btn.style.background=''; },4000); }
+    else throw new Error('Server error');
   } catch(err){ txt.textContent='Failed — Try Again'; btn.style.background='linear-gradient(135deg,#dc2626,#ef4444)'; btn.disabled=false; setTimeout(()=>{ txt.textContent='Send Admission'; btn.style.background=''; },3000); }
 }
 
-// ── SCROLL REVEAL ──
-const revealObserver = new IntersectionObserver((entries)=>{
-  entries.forEach((entry,i)=>{ if(entry.isIntersecting) setTimeout(()=>entry.target.classList.add('visible'),i*70); });
-},{threshold:0.08});
+// ═══════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════
+const revealObserver=new IntersectionObserver((entries)=>{ entries.forEach((entry,i)=>{ if(entry.isIntersecting) setTimeout(()=>entry.target.classList.add('visible'),i*70); }); },{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+// ═══════════════════════════════════════════════
+// INIT on DOM ready
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', ()=>{
+  initViews();
+  loadReviews();
+  loadGalleryFromStorage();
+  initCarouselDrag();
+});
 </script>
 </body>
 </html>
